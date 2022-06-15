@@ -31,6 +31,16 @@ void Circle::scale(float verticalScl, float horizontalScl) {
 
 }
 
+void Circle::saveToSvgFile(std::ofstream &file) const {
+    file << "<circle ";
+    file << "cx = \"" << this->points[Circle::CENTER].getX() << "\" ";
+    file << "cy = \"" << this->points[Circle::CENTER].getY() << "\" ";
+    file << "r = \"" << this->radius << "\" ";
+    file << "stroke = \"" << this->stroke << "\" ";
+    file << "fill = \"" << this->fill << "\" ";
+    file << "/>\n";
+}
+
 Shape *CircleCreator::userCreateShape(std::istream &input) const {
     float cx, cy, radius;
     std::string stroke, fill;

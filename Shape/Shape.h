@@ -26,6 +26,8 @@ public:
 
     virtual bool isContained(float tlX, float tlY, float brX, float brY) const;
 
+    virtual void saveToSvgFile(std::ofstream& file) const = 0;
+
     Shape &operator=(const Shape &other) = delete;
 
     unsigned getID() const;

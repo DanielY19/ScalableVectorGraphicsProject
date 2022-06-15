@@ -31,6 +31,16 @@ bool Line::isContained(float tlX, float tlY, float brX, float brY) const {
     return tlXContained && brXContained && tlYContained && brYContained;
 }
 
+void Line::saveToSvgFile(std::ofstream &file) const {
+    file << "<line ";
+    file << "x1 = \"" << this->points[Line::FIRST].getX() << "\" ";
+    file << "y1 = \"" << this->points[Line::FIRST].getY() << "\" ";
+    file << "x2 = \"" << this->points[Line::SECOND].getX() << "\" ";
+    file << "y2 = \"" << this->points[Line::SECOND].getY() << "\" ";
+    file << "stroke = \"" << this->stroke << "\" ";
+    file << "/>\n";
+}
+
 
 Shape *LineCreator::userCreateShape(std::istream &input) const {
     float x1, y1, x2, y2;

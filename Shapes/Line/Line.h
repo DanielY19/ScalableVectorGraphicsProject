@@ -13,6 +13,8 @@ public:
 
     bool isContained(float tlX, float tlY, float brX, float brY) const override;
 
+    void saveToSvgFile(std::ofstream& file) const override;
+
     ~Line() override = default;
 
 private:

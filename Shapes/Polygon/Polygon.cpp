@@ -87,6 +87,22 @@ void Polygon::scale(float verticalScl, float horizontalScl) {
                    getYMin(this->points.data(), this->points.size()));
 }
 
+void Polygon::saveToSvgFile(std::ofstream &file) const {
+    file << "<polygon ";
+    file << "points = \"";
+
+    unsigned size = this->points.size();
+
+    for (unsigned i = 0; i < size; i++)
+        file << this->points[i].getX() << ',' << this->points[i].getY() << ' ';
+
+    file << "\" ";
+
+    file << "stroke = \"" << this->stroke << "\" ";
+    file << "fill = \"" << this->fill << "\" ";
+    file << "/>\n";
+}
+
 bool isNumeric(const char *data) {
     while (*data != '\0') {
         if (((*data < '0' || *data > '9') && *data != '.' && *data != '-'))

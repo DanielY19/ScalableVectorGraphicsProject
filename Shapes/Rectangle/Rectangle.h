@@ -11,6 +11,8 @@ public:
 
     void scale(float verticalScl, float horizontalScl) override;
 
+    void saveToSvgFile(std::ofstream& file) const override;
+
     ~Rectangle() override = default;
 
 private:

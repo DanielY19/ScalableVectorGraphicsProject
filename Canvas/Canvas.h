@@ -8,7 +8,7 @@ class Canvas {
 public:
     Canvas();
 
-    void open(const char *fileName);
+    //void open(const char *fileName);
 
     void print();
 
@@ -16,19 +16,19 @@ public:
 
     //group
 
-    //bringForward
+    void bringForward(unsigned id, unsigned n);
 
-    //sendBackward
+    void sendBackwards(unsigned id, unsigned n);
 
     void translate(int id, float verticalTrl, float horizontalTrl);
 
-    void scale(int id, float verticalScl, float horizonatlScl);
+    void scale(int id, float verticalScl, float horizontalScl);
 
     //rotate
 
-    void save() const;
+    //void save() const;
 
-    void saveAs(const char *format) const;
+    //void saveAs(const char *format) const;
 
     ~Canvas();
 
@@ -39,6 +39,14 @@ private:
     unsigned capacity;
 
     std::string currentFile;
+
+    void addElement(Shape *element);
+
+    void moveBack(Shape *element,unsigned pos);
+
+    void moveFront(Shape *element, unsigned pos);
+
+    void allocateMem();
 
     void resize();
 

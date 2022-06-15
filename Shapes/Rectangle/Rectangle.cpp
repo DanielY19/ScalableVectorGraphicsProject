@@ -45,6 +45,17 @@ void Rectangle::scale(float verticalScl, float horizontalScl) {
     this->changeBR(this->points[Rectangle::BOTTOMRIGHT].getX(), this->points[Rectangle::BOTTOMRIGHT].getY());
 }
 
+void Rectangle::saveToSvgFile(std::ofstream &file) const {
+    file << "<rect ";
+    file << "x = \"" << this->points[Rectangle::TOPLEFT].getX() << "\" ";
+    file << "y = \"" << this->points[Rectangle::TOPLEFT].getY() << "\" ";
+    file << "width = \"" << this->width << "\" ";
+    file << "height = \"" << this->height << "\" ";
+    file << "stroke = \"" << this->stroke << "\" ";
+    file << "fill = \"" << this->fill << "\" ";
+    file << "/>\n";
+}
+
 Shape *RectangleCreator::userCreateShape(std::istream &input) const {
     float x, y, width, height;
     std::string stroke, fill;
