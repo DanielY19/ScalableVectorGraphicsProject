@@ -132,6 +132,7 @@ const char *findTextAttribute(std::ifstream &file, const char *searchedAttribute
 bool findSource(char *buffer, const char *source, std::ifstream &file) {
     char symbol = 0;
     unsigned size = 0;
+    unsigned currentIndex = file.tellg();
 
     unsigned maxSize = strlen(source);
 
@@ -139,9 +140,11 @@ bool findSource(char *buffer, const char *source, std::ifstream &file) {
         if (symbol == *source && size < maxSize) {
             buffer[size++] = symbol;
             source++;
+            currentIndex = file.tellg();
         } else if (size == maxSize) {
             buffer[size] = '\0';
             source -= size;
+            file.seekg(currentIndex);
             break;
         } else {
             source -= size;

@@ -1,5 +1,6 @@
 #include "Canvas.h"
 #include <iostream>
+#include <cstring>
 
 Canvas::Canvas()
         : shapes(nullptr), factory(), size(0), capacity(5) {
@@ -8,14 +9,62 @@ Canvas::Canvas()
         throw std::bad_alloc();
 }
 
+void skip(std::ifstream &file) {
+    char symbol = 0;
+    while (file.get(symbol) && symbol != '>');
+}
+
+void Canvas::openSvg(const char *fileName) {
+    std::ifstream file(fileName);
+
+    if (!file.is_open()) {
+        std::cerr << "Cannot openSvg file!";
+        return;
+    }
+
+    char symbol = 0;
+    std::string buffer;
+    bool found = false;
+
+    while (file.get(symbol)) {
+        if (symbol == '<')
+            std::getline(file, buffer, '>');
+        if (strcmp(buffer.c_str(), "svg") == 0) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        file.close();
+        throw std::invalid_argument("Invalid file!");
+    }
+
+    this->currentFile.assign(fileName);
+
+    while (file.get(symbol)) {
+        if (symbol == '<') {
+            this->addElement(this->factory.svgCreateShape(file));
+            skip(file);
+        }
+
+        unsigned currentIndex = file.tellg();
+        file >> buffer;
+
+        if (strcmp(buffer.c_str(), "<svg/>") == 0)
+            break;
+        else file.seekg(currentIndex);
+    }
+    file.close();
+}
+
 void Canvas::print() {
     for (unsigned i = 0; i < this->size; i++)
         this->shapes[i]->print();
 }
 
 void Canvas::create() {
-    Shape *addition = this->factory.userCreateShape(std::cin);
-    this->addElement(addition);
+    this->addElement(this->factory.userCreateShape(std::cin));
 }
 
 void Canvas::bringForward(unsigned int id, unsigned int n) {
@@ -76,6 +125,23 @@ void Canvas::scale(int id, float verticalScl, float horizontalScl) {
             this->shapes[i]->scale(verticalScl, horizontalScl);
             break;
         }
+}
+
+void Canvas::save() const {
+    std::ofstream file(this->currentFile.c_str(), std::ios::trunc);
+    if (!file.is_open()) {
+        std::cerr << "Cannot open file!";
+        return;
+    }
+
+    file << "<svg>\n";
+
+    for (unsigned i = 0; i < this->size; i++)
+        this->shapes[i]->saveToSvgFile(file);
+
+    file << "</svg>";
+
+    file.close();
 }
 
 Canvas::~Canvas() {

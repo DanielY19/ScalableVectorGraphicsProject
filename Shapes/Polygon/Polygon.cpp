@@ -137,6 +137,7 @@ float parseDataToNumber(const char *data) {
 Shape *PolygonCreator::userCreateShape(std::istream &input) const {
     std::string data, fill;
     std::vector<Point> points;
+
     unsigned counter = 0;
     float coord1 = 0;
     float coord2 = 0;
@@ -161,7 +162,6 @@ Shape *PolygonCreator::userCreateShape(std::istream &input) const {
 }
 
 std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
-    //equals check
     std::vector<Point> points;
     float coord1 = 0;
     float coord2 = 0;
@@ -182,49 +182,58 @@ std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
     while (file.get(symbol) && apostropheCount != 2 && symbol != '>') {
         if (symbol == '=')
             foundEquals = true;
-        else if (symbol == '\"')
-            apostropheCount++;
+
         else if (symbol == '.')
             foundFractions = true;
+
         else if (symbol == ',')
             counter++;
+
         else if (symbol == '-') {
             sign *= -1;
             signCoord = counter;
-        } else if (symbol >= '0' && symbol <= '9' && !foundFractions) {
-            if (counter == 0)
-                coord1 = coord1 * 10 + (symbol - '0');
-            else {
-                coord2 = coord2 * 10 + (symbol - '0');
-
-                if (signCoord == 0)
-                    coord1 *= sign;
-                else coord2 *= sign;
-
-                points.emplace_back(coord1, coord2);
-                coord1 = 0;
-                coord2 = 0;
-                counter = 0;
-                foundFractions = false;
-            }
-        } else if (symbol >= '0' && symbol <= '9') {
-            fractions *= 10;
-            if (counter == 0)
-                coord1 = coord1 * 10 + (symbol - '0');
-            else {
-                coord2 = coord2 * 10 + (symbol - '0');
-
-                if (signCoord == 0)
-                    coord1 *= sign;
-                else coord2 *= sign;
-
-                points.emplace_back(coord1, coord2);
-                counter = 0;
-                coord1 = 0;
-                coord2 = 0;
-                foundFractions = false;
-            }
         }
+
+        else if (symbol >= '0' && symbol <= '9' && !foundFractions)
+            if (counter == 0)
+                coord1 = coord1 * 10 + (symbol - '0');
+
+            else
+                coord2 = coord2 * 10 + (symbol - '0');
+
+        else if (symbol >= '0' && symbol <= '9') {
+            fractions *= 10;
+
+            if (counter == 0)
+                coord1 = coord1 * 10 + (symbol - '0');
+
+            else
+                coord2 = coord2 * 10 + (symbol - '0');
+
+        }
+
+
+        if ((symbol == ' ' || symbol == '\"') && apostropheCount) {
+            if (signCoord == 0)
+                coord1 *= sign;
+            else coord2 *= sign;
+
+            points.emplace_back(coord1, coord2);
+            coord1 = 0;
+            coord2 = 0;
+            counter = 0;
+            foundFractions = false;
+        }
+
+        if(symbol == '\"')
+            apostropheCount++;
+    }
+
+    if (!foundEquals) {
+        file.seekg(currentIndex);
+        std::vector<Point> zeroPoint;
+        zeroPoint.emplace_back(0,0);
+        return zeroPoint;
     }
 
 

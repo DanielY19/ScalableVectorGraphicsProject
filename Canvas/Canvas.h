@@ -8,7 +8,7 @@ class Canvas {
 public:
     Canvas();
 
-    //void open(const char *fileName);
+    void openSvg(const char *fileName);
 
     void print();
 
@@ -26,7 +26,7 @@ public:
 
     //rotate
 
-    //void save() const;
+    void save() const;
 
     //void saveAs(const char *format) const;
 
