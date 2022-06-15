@@ -9,7 +9,7 @@ public:
 
     Shape *userCreateShape(std::istream& input) const;
 
-    Shape *svgCreateShape(const char *fileName) const;
+    Shape *svgCreateShape(std::ifstream& file) const;
 
     ~ShapeFactory();
 private:

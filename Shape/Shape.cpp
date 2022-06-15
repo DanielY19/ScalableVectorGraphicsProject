@@ -162,6 +162,7 @@ float parseToNumber(std::ifstream &file, unsigned currentIndex) {
     float actualNumber = 0;
     float fractions = 1;
     bool foundFractions = false;
+    int sign = 1;
 
     while (file.get(digit) && apostropheCount != 2 && digit != '>') {
         if (digit == '=')
@@ -174,6 +175,8 @@ float parseToNumber(std::ifstream &file, unsigned currentIndex) {
             actualNumber = actualNumber * 10 + (digit - '0');
         else if (digit >= '0' && digit <= '9')
             actualNumber += (digit - '0') / fractions;
+        else if (digit == '-')
+            sign *= -1;
 
         fractions *= (foundFractions) ? (10) : (1);
     }
@@ -184,7 +187,7 @@ float parseToNumber(std::ifstream &file, unsigned currentIndex) {
     }
 
     file.seekg(currentIndex);
-    return actualNumber;
+    return actualNumber * sign;
 }
 
 const char *parseToText(std::ifstream &file, unsigned currentIndex) {

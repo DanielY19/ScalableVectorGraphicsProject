@@ -26,20 +26,22 @@ int main() {
     //poly.scale(2, 2);
     //poly.print();
 
-    std::ifstream file("test.txt");
+    //std::ifstream file("test.txt");
 
-    if (!file.is_open())
-       return -1;
+    //if (!file.is_open())
+    //    return -1;
 
-    //LineCreator cr1;
-    //Shape* p = cr1.svgCreateShape(file);
-    //p->print();
+    //ShapeFactory f1;
+    //Shape *p = f1.userCreateShape(std::cin);
+    //Shape *p1 = f1.userCreateShape(std::cin);
+    //Shape *p2 = f1.userCreateShape(std::cin);
+    //Shape *p3 = f1.svgCreateShape(file);
 
-    ShapeFactory f1;
-    Shape* p = f1.userCreateShape(std::cin);
-    p->print();
 
-    delete p;
+    //p3->print();
+
+
+    //delete p3;
 
     return 0;
 }

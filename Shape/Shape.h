@@ -10,7 +10,7 @@ class Shape {
 public:
     Shape(const char *stroke, const char *fill, const Point &TL, const Point &BR);
 
-    Shape(const Shape &other) = delete;//for later
+    Shape(const Shape &other) = delete;
 
     virtual void print() const;
 

@@ -25,14 +25,17 @@ Shape *ShapeFactory::userCreateShape(std::istream &input) const {
         if (strcmp(shapeType.c_str(), this->creators[i]->getTargetedShape()) == 0)
             return this->creators[i]->userCreateShape(input);
 
+
     return nullptr;
 }
 
-Shape *ShapeFactory::svgCreateShape(const char *fileName) const {
-    std::ifstream file(fileName);
+Shape *ShapeFactory::svgCreateShape(std::ifstream &file) const {
+    std::string shapeType;
+    file >> shapeType;
 
-    if (!file.is_open())
-        return nullptr;
+    for (unsigned i = 0; i < ShapeFactory::SHAPES; i++)
+        if (strcmp(shapeType.c_str(), this->creators[i]->getTargetedShape()) == 0)
+            return this->creators[i]->svgCreateShape(file);
 
     return nullptr;
 }
