@@ -88,14 +88,8 @@ const char *ShapeCreator::getTargetedShape() const {
 }
 
 void scaleForLineAndPolygon(const Point &first, Point &second, float verticalScl, float horizontalScl) {
-    float distanceY = first.getY() - second.getY();
-    float distanceX = first.getX() - second.getX();
-
-    if (distanceX < 0)
-        distanceX *= -1;
-
-    if (distanceY < 0)
-        distanceY *= -1;
+    float distanceY = second.getY() - first.getY();
+    float distanceX = second.getX() - first.getX();
 
     distanceY *= verticalScl;
     distanceX *= horizontalScl;

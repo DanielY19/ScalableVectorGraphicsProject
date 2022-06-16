@@ -1,6 +1,8 @@
 #include "Line.h"
 #include <iostream>
 
+unsigned Line::FIRST = 0;
+unsigned Line::SECOND = 1;
 
 Line::Line(float x1, float y1, float x2, float y2, const char *stroke)
         : Shape(stroke, stroke, Point(x1, y1), Point(x2, y2)) {
@@ -16,7 +18,17 @@ void Line::print() const {
 
 void Line::scale(float verticalScl, float horizontalScl) {
     scaleForLineAndPolygon(this->points[Line::FIRST], this->points[Line::SECOND], verticalScl, horizontalScl);
-    //even if FIRST isnt the top left point,its still ok because isContained still works!
+
+    bool onTop = this->points[Line::SECOND].getY() > this->points[Line::FIRST].getY();
+    bool onLeft = this->points[Line::SECOND].getX() < this->points[Line::FIRST].getX();
+
+    if (onTop && onLeft) {
+        unsigned temp = Line::FIRST;
+        Line::FIRST = Line::SECOND;
+        Line::SECOND = temp;
+    }
+
+    this->changeTL(this->points[Line::FIRST].getX(), this->points[Line::FIRST].getY());
     this->changeBR(this->points[Line::SECOND].getX(), this->points[Line::SECOND].getY());
 }
 

@@ -28,7 +28,8 @@ void Canvas::openSvg(const char *fileName) {
 
     while (file.get(symbol)) {
         if (symbol == '<')
-            std::getline(file, buffer, '>');
+            while (file.get(symbol) && symbol != '>' && symbol != ' ')
+                buffer.push_back(symbol);
         if (strcmp(buffer.c_str(), "svg") == 0) {
             found = true;
             break;
@@ -63,8 +64,8 @@ void Canvas::print() {
         this->shapes[i]->print();
 }
 
-void Canvas::create() {
-    this->addElement(this->factory.userCreateShape(std::cin));
+void Canvas::create(std::istream &input) {
+    this->addElement(this->factory.userCreateShape(input));
 }
 
 void Canvas::bringForward(unsigned int id, unsigned int n) {
@@ -80,7 +81,7 @@ void Canvas::bringForward(unsigned int id, unsigned int n) {
         }
 
     for (unsigned i = 0; i < this->size; i++) {
-        if (this->shapes[i]->getID() >= oldId && i != index)
+        if (i != index && this->shapes[i]->getID() > oldId && this->shapes[index]->getID() >= this->shapes[i]->getID())
             this->shapes[i]->sendBackwards(1);
     }
 
@@ -100,7 +101,7 @@ void Canvas::sendBackwards(unsigned int id, unsigned int n) {
         }
 
     for (unsigned i = 0; i < this->size; i++) {
-        if (this->shapes[i]->getID() <= oldId && i != index)
+        if (i != index && this->shapes[i]->getID() < oldId && this->shapes[index]->getID() <= this->shapes[i]->getID())
             this->shapes[i]->bringForward(1);
     }
 
@@ -127,14 +128,14 @@ void Canvas::scale(int id, float verticalScl, float horizontalScl) {
         }
 }
 
-void Canvas::save() const {
-    std::ofstream file(this->currentFile.c_str(), std::ios::trunc);
+void Canvas::save(const char *fileName) const {
+    std::ofstream file(fileName, std::ios::trunc);
     if (!file.is_open()) {
         std::cerr << "Cannot open file!";
         return;
     }
 
-    file << "<svg>\n";
+    file << "<svg width = \"100%\" height = \"100%\" >\n";
 
     for (unsigned i = 0; i < this->size; i++)
         this->shapes[i]->saveToSvgFile(file);

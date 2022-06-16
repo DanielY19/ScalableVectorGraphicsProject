@@ -12,7 +12,7 @@ public:
 
     void print();
 
-    void create();
+    void create(std::istream& input);
 
     //group
 
@@ -26,7 +26,7 @@ public:
 
     //rotate
 
-    void save() const;
+    void save(const char *fileName) const;
 
     //void saveAs(const char *format) const;
 

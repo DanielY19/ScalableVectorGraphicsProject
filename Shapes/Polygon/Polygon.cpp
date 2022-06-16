@@ -76,9 +76,12 @@ void Polygon::print() const {
 
 void Polygon::scale(float verticalScl, float horizontalScl) {
     unsigned size = this->points.size();
+    std::vector<Point> copyPoints(this->points);
 
-    for (unsigned i = 1; i < size; i++)
-        scaleForLineAndPolygon(this->points[Polygon::FIRST], this->points[i], verticalScl, horizontalScl);
+    for (unsigned i = 0; i < size - 1; i++)
+        scaleForLineAndPolygon(copyPoints[i], this->points[i + 1], verticalScl, horizontalScl);
+
+    scaleForLineAndPolygon(copyPoints[size - 1], this->points[0], verticalScl, horizontalScl);
 
     this->changeTL(getXMin(this->points.data(), this->points.size()),
                    getYMax(this->points.data(), this->points.size()));
@@ -192,9 +195,7 @@ std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
         else if (symbol == '-') {
             sign *= -1;
             signCoord = counter;
-        }
-
-        else if (symbol >= '0' && symbol <= '9' && !foundFractions)
+        } else if (symbol >= '0' && symbol <= '9' && !foundFractions)
             if (counter == 0)
                 coord1 = coord1 * 10 + (symbol - '0');
 
@@ -205,15 +206,29 @@ std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
             fractions *= 10;
 
             if (counter == 0)
-                coord1 = coord1 * 10 + (symbol - '0');
+                coord1 += (symbol - '0') / fractions;
 
             else
-                coord2 = coord2 * 10 + (symbol - '0');
+                coord2 += (symbol - '0') / fractions;
 
         }
 
 
         if ((symbol == ' ' || symbol == '\"') && apostropheCount) {
+
+            bool end = false;
+
+            if (symbol == ' ') {
+                unsigned currentIndex = file.tellg();
+
+                file.get(symbol);
+
+                if (symbol == '\"')
+                    end = true;
+
+                else file.seekg(currentIndex);
+            }
+
             if (signCoord == 0)
                 coord1 *= sign;
             else coord2 *= sign;
@@ -223,16 +238,20 @@ std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
             coord2 = 0;
             counter = 0;
             foundFractions = false;
+            fractions = 1;
+
+            if (end)
+                break;
         }
 
-        if(symbol == '\"')
+        if (symbol == '\"')
             apostropheCount++;
     }
 
     if (!foundEquals) {
         file.seekg(currentIndex);
         std::vector<Point> zeroPoint;
-        zeroPoint.emplace_back(0,0);
+        zeroPoint.emplace_back(0, 0);
         return zeroPoint;
     }
 

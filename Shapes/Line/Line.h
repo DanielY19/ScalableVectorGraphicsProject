@@ -18,8 +18,8 @@ public:
     ~Line() override = default;
 
 private:
-    const static unsigned FIRST = 0;
-    const static unsigned SECOND = 1;
+    static unsigned FIRST;
+    static unsigned SECOND;
 };
 
 class LineCreator : public ShapeCreator {
