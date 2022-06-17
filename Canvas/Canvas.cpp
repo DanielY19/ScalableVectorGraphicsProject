@@ -10,6 +10,7 @@ Canvas::Canvas()
 }
 
 void skip(std::ifstream &file) {
+    //have to make sure that the tag is closed!
     char symbol = 0;
     while (file.get(symbol) && symbol != '>');
 }
@@ -45,16 +46,16 @@ void Canvas::openSvg(const char *fileName) {
 
     while (file.get(symbol)) {
         if (symbol == '<') {
-            this->addElement(this->factory.svgCreateShape(file));
-            skip(file);
+            unsigned currentIndex = file.tellg();
+            file >> buffer;
+            if (strcmp(buffer.c_str(), "/svg>") == 0)
+                break;
+            else {
+                file.seekg(currentIndex);
+                this->addElement(this->factory.svgCreateShape(file));
+                skip(file);
+            }
         }
-
-        unsigned currentIndex = file.tellg();
-        file >> buffer;
-
-        if (strcmp(buffer.c_str(), "<svg/>") == 0)
-            break;
-        else file.seekg(currentIndex);
     }
     file.close();
 }
@@ -128,7 +129,7 @@ void Canvas::scale(int id, float verticalScl, float horizontalScl) {
         }
 }
 
-void Canvas::save(const char *fileName) const {
+void Canvas::saveSvg(const char *fileName) const {
     std::ofstream file(fileName, std::ios::trunc);
     if (!file.is_open()) {
         std::cerr << "Cannot open file!";

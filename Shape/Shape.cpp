@@ -198,7 +198,7 @@ const char *parseToText(std::ifstream &file, unsigned currentIndex) {
             foundEquals = true;
         else if (symbol == '\"')
             apostropheCount++;
-        else if ((symbol >= 'a' && symbol <= 'z') || (symbol >= 'A' && symbol <= 'Z'))
+        else if (apostropheCount && (symbol >= 'a' && symbol <= 'z') || (symbol >= 'A' && symbol <= 'Z'))
             text.push_back(symbol);
     }
 

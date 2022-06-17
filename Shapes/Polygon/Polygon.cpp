@@ -269,7 +269,11 @@ Shape *PolygonCreator::svgCreateShape(std::ifstream &file) const {
         const char *stroke = findTextAttribute(file, "stroke");
         const char *fill = findTextAttribute(file, "fill");
 
-        return new Polygon(points.data(), points.size(), stroke, fill);
+        Shape *obj = new Polygon(points.data(),points.size(),stroke,fill);
+        delete[] stroke;
+        delete[] fill;
+
+        return obj;
     }
 
     file.seekg(currentIndex);

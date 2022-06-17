@@ -5,8 +5,8 @@ int main() {
     Canvas can;
 
     can.openSvg("test.txt");
-    //can.translate(4, 200, 200);
-    //can.scale(1, 1.5,1.5);
+    can.translate(4, 200, 200);
+    can.scale(1, 1.5,1.5);
     //can.bringForward(3, 2);
     //can.scale(5, 0.5, 1.5);
     //can.translate(-1, 200, 200);
@@ -15,7 +15,7 @@ int main() {
 
     can.print();
 
-    can.save("test1.html");
+    can.saveSvg("test1.html");
 
 
 

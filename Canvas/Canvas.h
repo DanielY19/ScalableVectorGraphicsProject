@@ -8,6 +8,8 @@ class Canvas {
 public:
     Canvas();
 
+    Canvas(const Canvas& other) = delete;
+
     void openSvg(const char *fileName);
 
     void print();
@@ -26,7 +28,9 @@ public:
 
     //rotate
 
-    void save(const char *fileName) const;
+    Canvas& operator=(const Canvas& other) = delete;
+
+    void saveSvg(const char *fileName) const;
 
     //void saveAs(const char *format) const;
 

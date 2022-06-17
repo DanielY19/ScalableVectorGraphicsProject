@@ -6,14 +6,24 @@
 #include <cstring>
 
 ShapeFactory::ShapeFactory() {
+    unsigned size = 0;
+
     try {
         this->creators[0] = new LineCreator;
+        ++size;
+
         this->creators[1] = new CircleCreator;
+        ++size;
+
         this->creators[2] = new RectangleCreator;
+        ++size;
+
         this->creators[3] = new PolygonCreator;
+        ++size;
     }
     catch (std::bad_alloc &) {
-        this->destroy();
+        this->destroy(size);
+        throw;
     }
 }
 
@@ -41,10 +51,10 @@ Shape *ShapeFactory::svgCreateShape(std::ifstream &file) const {
 }
 
 ShapeFactory::~ShapeFactory() {
-    this->destroy();
+    this->destroy(ShapeFactory::SHAPES);
 }
 
-void ShapeFactory::destroy() {
-    for (unsigned i = 0; i < ShapeFactory::SHAPES; i++)
+void ShapeFactory::destroy(unsigned size) {
+    for (unsigned i = 0; i < size; i++)
         delete this->creators[i];
 }

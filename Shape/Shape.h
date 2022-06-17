@@ -22,7 +22,7 @@ public:
 
     virtual void scale(float verticalScl, float horizontalScl) = 0;
 
-    //void rotate(int angle);//for later
+    //virtual void rotate(int angle) = 0;//for later
 
     virtual bool isContained(float tlX, float tlY, float brX, float brY) const;
 
