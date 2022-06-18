@@ -1,0 +1,6 @@
+<svg>
+<line x1 = "0" y1 = "0" x2 = "200" y2 = "200" stroke = "black" />
+<circle cx = "50" cy = "50" r = "40" stroke = "black" fill = "red" />
+<rect x = "300" y = "300" width = "300" height = "100" stroke = "black" fill = "blue" />
+<polygon points = "100,10 40,198 190,78 10,78 160,198 " stroke = "black" fill = "lime" />
+</svg>
