@@ -39,7 +39,8 @@ void Canvas::openSvg(const char *fileName) {
 
     if (!found) {
         file.close();
-        throw std::invalid_argument("Invalid file!");
+        std::cerr << "Invalid file!";
+        return;
     }
 
     this->currentFile.assign(fileName);
@@ -57,6 +58,7 @@ void Canvas::openSvg(const char *fileName) {
             }
         }
     }
+
     file.close();
 }
 

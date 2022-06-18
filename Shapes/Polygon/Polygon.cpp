@@ -129,7 +129,7 @@ float parseDataToNumber(const char *data) {
         else if (!foundFractions)
             actualNumber = actualNumber * 10 + (*data - '0');
         else
-            actualNumber = (*data - '0') / fractions;
+            actualNumber += (*data - '0') / fractions;
 
         fractions *= (foundFractions) ? (10) : (1);
         data++;
