@@ -8,13 +8,13 @@ class Canvas {
 public:
     Canvas();
 
-    Canvas(const Canvas& other) = delete;
+    Canvas(const Canvas &other) = delete;
 
     void openSvg(const char *fileName);
 
     void print();
 
-    void create(std::istream& input);
+    void create(std::istream &input);
 
     //group
 
@@ -28,11 +28,11 @@ public:
 
     //rotate
 
-    Canvas& operator=(const Canvas& other) = delete;
+    Canvas &operator=(const Canvas &other) = delete;
 
-    void saveSvg(const char *fileName) const;
+    void save();
 
-    //void saveAs(const char *format) const;
+    void saveSvg() const;
 
     ~Canvas();
 
@@ -46,7 +46,7 @@ private:
 
     void addElement(Shape *element);
 
-    void moveBack(Shape *element,unsigned pos);
+    void moveBack(Shape *element, unsigned pos);
 
     void moveFront(Shape *element, unsigned pos);
 

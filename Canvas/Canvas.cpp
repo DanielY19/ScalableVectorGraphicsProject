@@ -3,7 +3,7 @@
 #include <cstring>
 
 Canvas::Canvas()
-        : shapes(nullptr), factory(), size(0), capacity(5) {
+        : shapes(nullptr), factory(), size(0), capacity(5), currentFile("default.txt") {
     this->allocateMem();
     if (shapes == nullptr)
         throw std::bad_alloc();
@@ -129,8 +129,36 @@ void Canvas::scale(int id, float verticalScl, float horizontalScl) {
         }
 }
 
-void Canvas::saveSvg(const char *fileName) const {
-    std::ofstream file(fileName, std::ios::trunc);
+void Canvas::save() {
+    std::ofstream file(currentFile.c_str(), std::ios::trunc);
+    if (!file.is_open()) {
+        std::cerr << "Cannot open file!";
+        return;
+    }
+
+    file << "<svg>\n";
+
+    for (unsigned i = 0; i < this->size; i++)
+        this->shapes[i]->saveToSvgFile(file);
+
+    file << "</svg>";
+
+    file.close();
+}
+
+void Canvas::saveSvg() const {
+    std::string newFile;
+    unsigned i = 0;
+
+    while (*(currentFile.c_str() + i) != '.') {
+        newFile += *(currentFile.c_str() + i);
+        ++i;
+    }
+
+    newFile += ".html";
+
+    std::ofstream file(newFile, std::ios::trunc);
+
     if (!file.is_open()) {
         std::cerr << "Cannot open file!";
         return;
