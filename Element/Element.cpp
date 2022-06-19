@@ -1,7 +1,7 @@
 #include "Element.h"
 
-Element::Element(const Point &TL, const Point &BR)
-        : TL(TL), BR(BR) {}
+Element::Element(const Point &TL, const Point &BR,unsigned id)
+        : TL(TL), BR(BR),id(id) {}
 
 bool Element::isContained(float tlX, float tlY, float brX, float brY) const {
     bool first = (this->getTL().getX() >= tlX) && (this->getTL().getY() <= tlY);

@@ -2,7 +2,7 @@
 #define SCALABLEVECTORGRAPHICS_CANVAS_H
 
 #include "../Shapes/ShapeFactory/ShapeFactory.h"
-#include "../Shape/Shape.h"
+#include "../Group/Group.h"
 
 class Canvas {
 public:
@@ -16,7 +16,7 @@ public:
 
     void create(std::istream &input);
 
-    //group
+    void group(float tlX, float tlY, float brX, float brY);
 
     void bringForward(unsigned id, unsigned n);
 
@@ -46,9 +46,7 @@ private:
 
     void addElement(Element *element);
 
-    void moveBack(Element *element, unsigned pos);
-
-    void moveFront(Element *element, unsigned pos);
+    void shiftBack(unsigned index);
 
     void allocateMem();
 

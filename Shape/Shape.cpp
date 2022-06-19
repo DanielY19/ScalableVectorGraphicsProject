@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstring>
 
-unsigned Shape::idGenerator = 1;
+unsigned Shape::shapeIDGenerator = 1;
 
 const char *checkForNullptr(const char *str) {
     if (str == nullptr)
@@ -11,7 +11,7 @@ const char *checkForNullptr(const char *str) {
 }
 
 Shape::Shape(const char *stroke, const char *fill, const Point &TL, const Point &BR)
-        : Element(TL, BR), id(Shape::idGenerator++), stroke(checkForNullptr(stroke)), fill(checkForNullptr(fill)) {}
+        : Element(TL, BR, Shape::shapeIDGenerator++), stroke(checkForNullptr(stroke)), fill(checkForNullptr(fill)) {}
 
 
 void Shape::print() const {
@@ -22,7 +22,7 @@ void Shape::print() const {
 }
 
 void Shape::bringForward(unsigned int layers) {
-    if (layers + this->id > idGenerator) {
+    if (layers + this->id > Shape::shapeIDGenerator) {
         std::cerr << "Cannot move shape,because it will go out of bounds!";
         return;
     }
@@ -46,7 +46,7 @@ void Shape::translate(float verticalTrl, float horizontalTrl) {
         this->points[i].translate(verticalTrl, horizontalTrl);
 }
 
-unsigned Shape::getID(bool max) const {
+unsigned int Shape::getID() const {
     return this->id;
 }
 

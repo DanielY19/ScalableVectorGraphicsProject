@@ -4,6 +4,7 @@
 #include "../Element/Element.h"
 
 class Group : public Element {
+public:
     Group();
 
     void addElement(Element *element);
@@ -22,7 +23,7 @@ class Group : public Element {
 
     void saveToSvgFile(std::ofstream &file) const override;
 
-    unsigned getID(bool max) const override;
+    unsigned getID() const override;
 
     ~Group() override;
 
@@ -37,8 +38,11 @@ private:
 
     void destroy();
 
+private:
     Point TL;
     Point BR;
+
+    static unsigned groupIDGenerator;
 };
 
 

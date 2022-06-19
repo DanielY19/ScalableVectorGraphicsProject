@@ -1,7 +1,9 @@
 #include "Group.h"
 
+unsigned Group::groupIDGenerator = 1;
+
 Group::Group()
-        : Element(Point(), Point()), elements(nullptr), size(0), capacity(5), TL(), BR() {
+        : Element(Point(), Point(), Group::groupIDGenerator++), elements(nullptr), size(0), capacity(5), TL(), BR() {
     this->allocateMem();
 
     if (this->elements == nullptr)
@@ -30,10 +32,10 @@ void Group::print() const {
 }
 
 void Group::bringForward(unsigned int layers) {
-    unsigned oldID = this->elements[this->size - 1]->getID(true);
+    unsigned oldID = this->elements[this->size - 1]->getID();
     this->elements[this->size - 1]->bringForward(layers);
 
-    if (this->elements[this->size - 1]->getID(true) == oldID)
+    if (this->elements[this->size - 1]->getID() == oldID)
         return;
 
     for (unsigned i = this->size - 2; i >= 0; i--) {
@@ -42,10 +44,10 @@ void Group::bringForward(unsigned int layers) {
 }
 
 void Group::sendBackwards(unsigned int layers) {
-    unsigned oldID = this->elements[0]->getID(false);
+    unsigned oldID = this->elements[0]->getID();
     this->elements[0]->sendBackwards(layers);
 
-    if (this->elements[0]->getID(false) == oldID)
+    if (this->elements[0]->getID() == oldID)
         return;
 
     for (unsigned i = 1; i < this->size; i--) {
@@ -68,10 +70,8 @@ void Group::saveToSvgFile(std::ofstream &file) const {
         this->elements[i]->saveToSvgFile(file);
 }
 
-unsigned int Group::getID(bool max) const {
-    if (max)
-        return this->elements[this->size - 1]->getID(true);
-    else return this->elements[0]->getID(false);
+unsigned int Group::getID() const {
+    return this->id;
 }
 
 Group::~Group() {

@@ -27,7 +27,7 @@ public:
 
     Shape &operator=(const Shape &other) = delete;
 
-    unsigned getID(bool max) const override;
+    unsigned getID() const override;
 
     ~Shape() override = default;
 
@@ -36,10 +36,8 @@ protected:
     std::string stroke;
     std::string fill;
 
-private:
-    static unsigned idGenerator;
+    static unsigned shapeIDGenerator;
 
-    unsigned id;
 };
 
 

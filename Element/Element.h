@@ -6,7 +6,7 @@
 
 class Element {
 public:
-    Element(const Point &TL, const Point &BR);
+    Element(const Point &TL, const Point &BR,unsigned id);
 
     Element(const Element &other) = delete;
 
@@ -26,7 +26,7 @@ public:
 
     virtual void saveToSvgFile(std::ofstream &file) const = 0;
 
-    virtual unsigned getID(bool max) const = 0;
+    virtual unsigned getID() const = 0;
 
     Element &operator=(const Element &other) = delete;
 
@@ -42,6 +42,8 @@ public:
 
     const Point &getBR() const;
 
+protected:
+    unsigned id;
 private:
     Point TL;
     Point BR;

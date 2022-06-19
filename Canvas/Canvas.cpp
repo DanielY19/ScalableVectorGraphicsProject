@@ -71,6 +71,25 @@ void Canvas::create(std::istream &input) {
     this->addElement(this->factory.userCreateShape(input));
 }
 
+void Canvas::group(float tlX, float tlY, float brX, float brY) {
+    Group *elementGroup;
+
+    try {
+        elementGroup = new Group;
+    }
+    catch (std::bad_alloc &) {
+        return;
+    }
+
+    for (unsigned i = 0; i < this->size; i++)
+        if (this->elements[i]->isContained(tlX, tlY, brX, brY)) {
+            elementGroup->addElement(this->elements[i]);
+            this->shiftBack(i);
+        }
+
+    this->addElement(elementGroup);
+}
+
 /*
 
 void Canvas::bringForward(unsigned int id, unsigned int n) {
@@ -115,6 +134,10 @@ void Canvas::sendBackwards(unsigned int id, unsigned int n) {
 }
 
 */
+
+void Canvas::translate(int id, float verticalTrl, float horizontalTrl) {
+
+}
 
 
 void Canvas::save() {
@@ -176,10 +199,16 @@ void Canvas::addElement(Element *element) {
     this->elements[this->size++] = element;
 }
 
+void Canvas::shiftBack(unsigned int index) {
+    for (unsigned i = index; i < this->size - 1; i++)
+        this->elements[i] = this->elements[i + 1];
+    this->elements[this->size - 1] = nullptr;
+    this->size--;
+}
 
 void Canvas::allocateMem() {
     try {
-        this->elements = new Element*[this->capacity];
+        this->elements = new Element *[this->capacity];
     }
     catch (std::bad_alloc &) {
         this->elements = nullptr;
