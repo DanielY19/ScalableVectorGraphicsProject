@@ -94,7 +94,6 @@ void Canvas::group(float tlX, float tlY, float brX, float brY) {
     this->addElement(elementGroup);
 }
 
-
 void Canvas::bringForward(unsigned int id, unsigned int n) {
     int index = -1;
     unsigned oldId = id;
