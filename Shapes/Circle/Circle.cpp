@@ -68,7 +68,8 @@ Element *CircleCreator::svgCreateShape(std::ifstream &file) const {
     const char *fill = findTextAttribute(file, "fill");
 
     Element *obj = new Circle(cx, cy, radius, stroke, fill);
-    delete[] stroke, fill;
+    delete[] stroke;
+    delete[] fill;
 
     return obj;
 }

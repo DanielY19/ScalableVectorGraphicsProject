@@ -109,14 +109,14 @@ void Canvas::ungroup(unsigned int id) {
             if (this->inElements(group[0]))
                 return;
 
+            delete this->elements[i];
+            this->shiftBack(i);
+            --Element::idGenerator;
+
             for (unsigned j = 0; j < groupSize; j++) {
                 this->addElement(group[j]);
                 this->moveBack(this->elements[this->size - 1], this->size - 1);
             }
-
-            delete this->elements[i];
-            --Element::idGenerator;
-            --this->size;
 
             return;
         }

@@ -79,7 +79,8 @@ Element *RectangleCreator::svgCreateShape(std::ifstream &file) const {
     const char *fill = findTextAttribute(file, "fill");
 
     Element *obj = new Rectangle(x, y, width, height, stroke, fill);
-    delete[] stroke, fill;
+    delete[] stroke;
+    delete[] fill;
 
     return obj;
 }
