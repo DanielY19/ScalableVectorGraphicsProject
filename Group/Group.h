@@ -1,0 +1,14 @@
+//
+// Created by Owner on 19.6.2022 г..
+//
+
+#ifndef SCALABLEVECTORGRAPHICS_GROUP_H
+#define SCALABLEVECTORGRAPHICS_GROUP_H
+
+
+class Group {
+
+};
+
+
+#endif //SCALABLEVECTORGRAPHICS_GROUP_H

@@ -27,7 +27,7 @@ ShapeFactory::ShapeFactory() {
     }
 }
 
-Shape *ShapeFactory::userCreateShape(std::istream &input) const {
+Element *ShapeFactory::userCreateShape(std::istream &input) const {
     std::string shapeType;
     input >> shapeType;
 
@@ -39,7 +39,7 @@ Shape *ShapeFactory::userCreateShape(std::istream &input) const {
     return nullptr;
 }
 
-Shape *ShapeFactory::svgCreateShape(std::ifstream &file) const {
+Element *ShapeFactory::svgCreateShape(std::ifstream &file) const {
     std::string shapeType;
     file >> shapeType;
 

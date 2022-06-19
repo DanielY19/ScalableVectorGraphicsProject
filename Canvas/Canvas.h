@@ -37,18 +37,18 @@ public:
     ~Canvas();
 
 private:
-    Shape **shapes;
+    Element **elements;
     ShapeFactory factory;
     unsigned size;
     unsigned capacity;
 
     std::string currentFile;
 
-    void addElement(Shape *element);
+    void addElement(Element *element);
 
-    void moveBack(Shape *element, unsigned pos);
+    void moveBack(Element *element, unsigned pos);
 
-    void moveFront(Shape *element, unsigned pos);
+    void moveFront(Element *element, unsigned pos);
 
     void allocateMem();
 

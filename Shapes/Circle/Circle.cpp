@@ -41,7 +41,7 @@ void Circle::saveToSvgFile(std::ofstream &file) const {
     file << "/>\n";
 }
 
-Shape *CircleCreator::userCreateShape(std::istream &input) const {
+Element *CircleCreator::userCreateShape(std::istream &input) const {
     float cx, cy, radius;
     std::string stroke, fill;
 
@@ -50,7 +50,7 @@ Shape *CircleCreator::userCreateShape(std::istream &input) const {
     return new Circle(cx, cy, radius, stroke.c_str(), fill.c_str());
 }
 
-Shape *CircleCreator::svgCreateShape(std::ifstream &file) const {
+Element *CircleCreator::svgCreateShape(std::ifstream &file) const {
     float cx, cy, radius;
 
     cx = findNumericAttribute(file, "cx");
@@ -59,7 +59,7 @@ Shape *CircleCreator::svgCreateShape(std::ifstream &file) const {
     const char *stroke = findTextAttribute(file, "stroke");
     const char *fill = findTextAttribute(file, "fill");
 
-    Shape *obj = new Circle(cx, cy, radius, stroke, fill);
+    Element *obj = new Circle(cx, cy, radius, stroke, fill);
     delete[] stroke, fill;
 
     return obj;

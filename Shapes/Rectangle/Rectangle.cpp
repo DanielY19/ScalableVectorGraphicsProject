@@ -56,7 +56,7 @@ void Rectangle::saveToSvgFile(std::ofstream &file) const {
     file << "/>\n";
 }
 
-Shape *RectangleCreator::userCreateShape(std::istream &input) const {
+Element *RectangleCreator::userCreateShape(std::istream &input) const {
     float x, y, width, height;
     std::string stroke, fill;
 
@@ -65,7 +65,7 @@ Shape *RectangleCreator::userCreateShape(std::istream &input) const {
     return new Rectangle(x, y, width, height, stroke.c_str(), fill.c_str());
 }
 
-Shape *RectangleCreator::svgCreateShape(std::ifstream &file) const {
+Element *RectangleCreator::svgCreateShape(std::ifstream &file) const {
     float x, y, width, height;
 
     x = findNumericAttribute(file, "x");
@@ -75,7 +75,7 @@ Shape *RectangleCreator::svgCreateShape(std::ifstream &file) const {
     const char *stroke = findTextAttribute(file, "stroke");
     const char *fill = findTextAttribute(file, "fill");
 
-    Shape *obj = new Rectangle(x, y, width, height, stroke, fill);
+    Element *obj = new Rectangle(x, y, width, height, stroke, fill);
     delete[] stroke, fill;
 
     return obj;

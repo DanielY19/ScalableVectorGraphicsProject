@@ -54,7 +54,7 @@ void Line::saveToSvgFile(std::ofstream &file) const {
 }
 
 
-Shape *LineCreator::userCreateShape(std::istream &input) const {
+Element *LineCreator::userCreateShape(std::istream &input) const {
     float x1, y1, x2, y2;
     std::string stroke;
 
@@ -63,7 +63,7 @@ Shape *LineCreator::userCreateShape(std::istream &input) const {
     return new Line(x1, y1, x2, y2, stroke.c_str());
 }
 
-Shape *LineCreator::svgCreateShape(std::ifstream &file) const {
+Element *LineCreator::svgCreateShape(std::ifstream &file) const {
     float x1, y1, x2, y2;
 
     x1 = findNumericAttribute(file, "x1");
@@ -72,7 +72,7 @@ Shape *LineCreator::svgCreateShape(std::ifstream &file) const {
     y2 = findNumericAttribute(file, "y2");
     const char *stroke = findTextAttribute(file, "stroke");
 
-    Shape *obj = new Line(x1, y1, x2, y2, stroke);
+    Element *obj = new Line(x1, y1, x2, y2, stroke);
     delete[] stroke;
 
     return obj;

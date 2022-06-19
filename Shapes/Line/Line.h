@@ -26,9 +26,9 @@ class LineCreator : public ShapeCreator {
 public:
     LineCreator() : ShapeCreator("line") {}
 
-    Shape *userCreateShape(std::istream& input) const override;
+    Element *userCreateShape(std::istream& input) const override;
 
-    Shape *svgCreateShape(std::ifstream& file) const override;
+    Element *svgCreateShape(std::ifstream& file) const override;
 };
 
 #endif //SCALABLEVECTORGRAPHICS_LINE_H

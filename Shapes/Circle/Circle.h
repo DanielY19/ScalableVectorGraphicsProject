@@ -25,9 +25,9 @@ class CircleCreator : public ShapeCreator {
 public:
     CircleCreator() : ShapeCreator("circle") {}
 
-    Shape *userCreateShape(std::istream &input) const override;
+    Element *userCreateShape(std::istream &input) const override;
 
-    Shape *svgCreateShape(std::ifstream& file) const override;
+    Element *svgCreateShape(std::ifstream& file) const override;
 };
 
 

@@ -1,36 +1,35 @@
 #ifndef SCALABLEVECTORGRAPHICS_SHAPE_H
 #define SCALABLEVECTORGRAPHICS_SHAPE_H
-
-#include <fstream>
+#include "../Element/Element.h"
 #include <string>
 #include <vector>
 #include "Point/Point.h"
 
-class Shape {
+class Shape :public Element{
 public:
     Shape(const char *stroke, const char *fill, const Point &TL, const Point &BR);
 
     Shape(const Shape &other) = delete;
 
-    virtual void print() const;
+    virtual void print() const override;
 
-    void bringForward(unsigned layers);
+    void bringForward(unsigned layers) override;
 
-    void sendBackwards(unsigned layers);
+    void sendBackwards(unsigned layers) override;
 
-    void translate(float verticalTrl, float horizontalTrl);
+    void translate(float verticalTrl, float horizontalTrl) override;
 
     virtual void scale(float verticalScl, float horizontalScl) = 0;
 
     //virtual void rotate(int angle) = 0;//for later
 
-    virtual bool isContained(float tlX, float tlY, float brX, float brY) const;
+    bool isContained(float tlX, float tlY, float brX, float brY) const override;
 
     virtual void saveToSvgFile(std::ofstream& file) const = 0;
 
     Shape &operator=(const Shape &other) = delete;
 
-    unsigned getID() const;
+    unsigned getID() const override;
 
     virtual ~Shape() = default;
 
@@ -68,9 +67,9 @@ public:
 
     //additionalFunctionForTheOtherFormat();
 
-    virtual Shape *svgCreateShape(std::ifstream &file) const = 0;
+    virtual Element *svgCreateShape(std::ifstream &file) const = 0;
 
-    virtual Shape *userCreateShape(std::istream &input) const = 0;
+    virtual Element *userCreateShape(std::istream &input) const = 0;
 
     const char *getTargetedShape() const;
 

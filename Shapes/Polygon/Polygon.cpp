@@ -137,7 +137,7 @@ float parseDataToNumber(const char *data) {
     return actualNumber * sign;
 }
 
-Shape *PolygonCreator::userCreateShape(std::istream &input) const {
+Element *PolygonCreator::userCreateShape(std::istream &input) const {
     std::string data, fill;
     std::vector<Point> points;
 
@@ -260,7 +260,7 @@ std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
     return points;
 }
 
-Shape *PolygonCreator::svgCreateShape(std::ifstream &file) const {
+Element *PolygonCreator::svgCreateShape(std::ifstream &file) const {
     unsigned currentIndex = file.tellg();
     char buffer[7];
 
@@ -269,7 +269,7 @@ Shape *PolygonCreator::svgCreateShape(std::ifstream &file) const {
         const char *stroke = findTextAttribute(file, "stroke");
         const char *fill = findTextAttribute(file, "fill");
 
-        Shape *obj = new Polygon(points.data(),points.size(),stroke,fill);
+        Element *obj = new Polygon(points.data(),points.size(),stroke,fill);
         delete[] stroke;
         delete[] fill;
 

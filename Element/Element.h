@@ -24,6 +24,8 @@ public:
 
     virtual void saveToSvgFile(std::ofstream& file) const = 0;
 
+    virtual unsigned getID() const = 0;
+
     Element& operator=(const Element& other) = delete;
 
     ~Element() = default;

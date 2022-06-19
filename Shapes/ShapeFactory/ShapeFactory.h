@@ -9,9 +9,9 @@ public:
 
     ShapeFactory(const ShapeFactory& other) = delete;
 
-    Shape *userCreateShape(std::istream& input) const;
+    Element *userCreateShape(std::istream& input) const;
 
-    Shape *svgCreateShape(std::ifstream& file) const;
+    Element *svgCreateShape(std::ifstream& file) const;
 
     ShapeFactory& operator=(const ShapeFactory& other) = delete;
 
