@@ -57,5 +57,7 @@ const Point &Element::getBR() const {
 }
 
 std::vector<Element *> Element::ungroup() {
-    return std::vector<Element *>();
+    std::vector<Element *> element;
+    element.push_back(this);
+    return element;
 }

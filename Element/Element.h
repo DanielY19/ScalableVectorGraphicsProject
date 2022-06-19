@@ -7,6 +7,8 @@
 
 class Element {
 public:
+    static unsigned idGenerator;
+
     Element(const Point &TL, const Point &BR);
 
     Element(const Element &other) = delete;
@@ -48,7 +50,6 @@ public:
 protected:
     unsigned id;
 
-    static unsigned idGenerator;
 private:
     Point TL;
     Point BR;

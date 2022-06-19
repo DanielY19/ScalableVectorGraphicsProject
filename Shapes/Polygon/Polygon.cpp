@@ -78,7 +78,7 @@ void Polygon::translate(float verticalTrl, float horizontalTrl) {
     unsigned size = this->points.size();
 
     for (unsigned i = 0; i < size; i++)
-        this->points[i].translate(verticalTrl,horizontalTrl);
+        this->points[i].translate(verticalTrl, horizontalTrl);
 
     this->calculateSurroundingRectangle();
 }
@@ -202,12 +202,16 @@ std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
         else if (symbol == '.')
             foundFractions = true;
 
-        else if (symbol == ',')
+        else if (symbol == ',') {
             counter++;
+            foundFractions = false;
+            coord1 *= sign;
+            sign = 1;
+            fractions = 1;
 
-        else if (symbol == '-') {
+        } else if (symbol == '-') {
             sign *= -1;
-            signCoord = counter;
+
         } else if (symbol >= '0' && symbol <= '9' && !foundFractions)
             if (counter == 0)
                 coord1 = coord1 * 10 + (symbol - '0');
@@ -242,9 +246,7 @@ std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {
                 else file.seekg(currentIndex);
             }
 
-            if (signCoord == 0)
-                coord1 *= sign;
-            else coord2 *= sign;
+            coord2 *= sign;
 
             points.emplace_back(coord1, coord2);
             coord1 = 0;

@@ -47,6 +47,8 @@ private:
 
     void addElement(Element *element);
 
+    bool inElements(const Element* element) const;
+
     void moveBack(Element *element, unsigned pos);
 
     void moveFront(Element *element, unsigned pos);

@@ -79,15 +79,23 @@ void Canvas::group(float tlX, float tlY, float brX, float brY) {
     }
 
     int i = 0;
+    bool taken = false;
 
     while (i != this->size) {
         if (this->elements[i]->isContained(tlX, tlY, brX, brY)) {
             elementGroup->addElement(this->elements[i]);
             this->shiftBack(i);
             --i;
+            taken = true;
         }
         ++i;
     }
+
+    if (!taken) {
+        delete elementGroup;
+        return;
+    }
+
     this->addElement(elementGroup);
 }
 
@@ -95,13 +103,20 @@ void Canvas::ungroup(unsigned int id) {
     for (unsigned i = 0; i < this->size; i++)
         if (this->elements[i]->getID() == id) {
 
-            std::vector<Element *> group = this->elements[i]->ungroup();
+            std::vector<Element *> group(this->elements[i]->ungroup());
             unsigned groupSize = group.size();
+
+            if (this->inElements(group[0]))
+                return;
 
             for (unsigned j = 0; j < groupSize; j++) {
                 this->addElement(group[j]);
                 this->moveBack(this->elements[this->size - 1], this->size - 1);
             }
+
+            delete this->elements[i];
+            --Element::idGenerator;
+            --this->size;
 
             return;
         }
@@ -237,6 +252,13 @@ void Canvas::addElement(Element *element) {
         return;
     this->elements.push_back(element);
     ++this->size;
+}
+
+bool Canvas::inElements(const Element *element) const {
+    for (unsigned i = 0; i < this->size; i++)
+        if (this->elements[i] == element)
+            return true;
+    return false;
 }
 
 void Canvas::moveBack(Element *element, unsigned int pos) {
