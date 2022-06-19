@@ -65,12 +65,25 @@ void Interface::commandLine() {
 
         else if(strcmp(command.c_str(), "save") == 0){
             this->image.save();
-            return;
         }
 
         else if(strcmp(command.c_str(), "saveAs") == 0){
             this->image.saveSvg();
-            return;
+        }
+
+        else if(strcmp(command.c_str(),"help")==0){
+            std::cout << "open <file_name> = opens a file with the given file name!\n";
+            std::cout << "print = prints the current shapes in the image!\n";
+            std::cout << "create <shape_type> <required parameters> = creates the given figure with the parameters!\n";
+            std::cout << "group <point_TL> <point_BR> = groups shapes that are within the given area!\n";
+            std::cout << "ungroup <id> = ungroups the given element at id!\n";
+            std::cout << "bringForward <id> <layers> = brings the given element <layers> layers forward!\n";
+            std::cout << "sendBackward <id> <layers> = sends the given element <layers> layers backward!\n";
+            std::cout << "translate <id> <verticalTranslate> <horizontalTranslate> = translates the element with vertTrl and horzTrl!\n";
+            std::cout << "scale <id> <verticalScale> <horizontalScale> = scales the element with vertScl and horzScl!\n";
+            std::cout << "save = saves the changes in the current file that is opened!\n";
+            std::cout << "saveAs = saves the changes as an svg file!\n\n";
+
         }
 
         else if(strcmp(command.c_str(),"exit")==0){
