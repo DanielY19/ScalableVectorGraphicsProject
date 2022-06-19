@@ -15,7 +15,7 @@ public:
 
     void bringForward(unsigned layers);
 
-    void sendBackwards(unsigned layers) ;
+    void sendBackwards(unsigned layers);
 
     virtual void translate(float verticalTrl, float horizontalTrl) = 0;
 

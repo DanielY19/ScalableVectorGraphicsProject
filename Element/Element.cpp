@@ -26,12 +26,10 @@ void Element::sendBackwards(unsigned int layers) {
 
 
 bool Element::isContained(float tlX, float tlY, float brX, float brY) const {
-    bool first = (this->getTL().getX() >= tlX) && (this->getTL().getY() >= tlY);
+    Point tl(tlX, tlY);
+    Point br(brX, brY);
 
-    bool second = (this->getBR().getX() <= brX) &&
-                  (this->getBR().getY() <= brY);
-
-    return first && second;
+    return tl <= this->TL && br >= this->BR;
 }
 
 unsigned int Element::getID() const {

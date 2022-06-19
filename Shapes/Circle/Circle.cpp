@@ -43,10 +43,10 @@ void Circle::saveToSvgFile(std::ofstream &file) const {
 
 void Circle::calculateSurroundingRectangle() {
     this->changeTL(this->points[Circle::CENTER].getX() - this->radius,
-                   this->points[Circle::CENTER].getY() + this->radius);
+                   this->points[Circle::CENTER].getY() - this->radius);
 
     this->changeBR(this->points[Circle::CENTER].getX() + this->radius,
-                   this->points[Circle::CENTER].getY() - this->radius);
+                   this->points[Circle::CENTER].getY() + this->radius);
 }
 
 Element *CircleCreator::userCreateShape(std::istream &input) const {

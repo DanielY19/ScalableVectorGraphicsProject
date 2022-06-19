@@ -6,7 +6,7 @@ unsigned Rectangle::TOPLEFT = 0;
 unsigned Rectangle::BOTTOMRIGHT = 1;
 
 Rectangle::Rectangle(float x, float y, float width, float height, const char *stroke, const char *fill)
-        : Shape(stroke, fill, Point(x, y), Point(x + width, y - height)), width(width), height(height) {
+        : Shape(stroke, fill, Point(x, y), Point(x + width, y + height)), width(width), height(height) {
     if (width < 0 || height < 0)
         throw std::invalid_argument("Height or width cannot be negative!");
 
@@ -30,7 +30,7 @@ void Rectangle::scale(float verticalScl, float horizontalScl) {
     this->height *= verticalScl;
     this->width *= horizontalScl;
     this->points[Rectangle::BOTTOMRIGHT].change(this->points[Rectangle::TOPLEFT].getX() + width,
-                                                this->points[Rectangle::TOPLEFT].getY() - height);
+                                                this->points[Rectangle::TOPLEFT].getY() + height);
 
     if (this->height < 0)
         this->height *= -1;
