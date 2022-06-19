@@ -3,10 +3,10 @@
 unsigned Group::groupIDGenerator = 1;
 
 Group::Group()
-        : Element(Point(), Point(), Group::groupIDGenerator++), elements(nullptr), size(0), capacity(5), TL(), BR() {
+        : Element(Point(), Point(), Group::groupIDGenerator++), shapes(nullptr), size(0), capacity(5), TL(), BR() {
     this->allocateMem();
 
-    if (this->elements == nullptr)
+    if (this->shapes == nullptr)
         throw std::bad_alloc();
 }
 
@@ -17,7 +17,7 @@ void Group::addElement(Element *element) {
         this->resize();
     if (this->size == this->capacity)
         return;
-    this->elements[this->size++] = element;
+    this->shapes[this->size++] = element;
 
     if (element->getTL() < this->TL)
         this->TL.change(element->getTL().getX(), element->getTL().getY());
@@ -28,46 +28,46 @@ void Group::addElement(Element *element) {
 
 void Group::print() const {
     for (unsigned i = 0; i < this->size; i++)
-        this->elements[i]->print();
+        this->shapes[i]->print();
 }
 
 void Group::bringForward(unsigned int layers) {
-    unsigned oldID = this->elements[this->size - 1]->getID();
-    this->elements[this->size - 1]->bringForward(layers);
+    unsigned oldID = this->shapes[this->size - 1]->getID();
+    this->shapes[this->size - 1]->bringForward(layers);
 
-    if (this->elements[this->size - 1]->getID() == oldID)
+    if (this->shapes[this->size - 1]->getID() == oldID)
         return;
 
     for (unsigned i = this->size - 2; i >= 0; i--) {
-        this->elements[i]->bringForward(layers);
+        this->shapes[i]->bringForward(layers);
     }
 }
 
 void Group::sendBackwards(unsigned int layers) {
-    unsigned oldID = this->elements[0]->getID();
-    this->elements[0]->sendBackwards(layers);
+    unsigned oldID = this->shapes[0]->getID();
+    this->shapes[0]->sendBackwards(layers);
 
-    if (this->elements[0]->getID() == oldID)
+    if (this->shapes[0]->getID() == oldID)
         return;
 
     for (unsigned i = 1; i < this->size; i--) {
-        this->elements[i]->sendBackwards(layers);
+        this->shapes[i]->sendBackwards(layers);
     }
 }
 
 void Group::translate(float verticalTrl, float horizontalTrl) {
     for (unsigned i = 0; i < this->size; i++)
-        this->elements[i]->translate(verticalTrl, horizontalTrl);
+        this->shapes[i]->translate(verticalTrl, horizontalTrl);
 }
 
 void Group::scale(float verticalScl, float horizontalScl) {
     for (unsigned i = 0; i < this->size; i++)
-        this->elements[i]->scale(verticalScl, horizontalScl);
+        this->shapes[i]->scale(verticalScl, horizontalScl);
 }
 
 void Group::saveToSvgFile(std::ofstream &file) const {
     for (unsigned i = 0; i < this->size; i++)
-        this->elements[i]->saveToSvgFile(file);
+        this->shapes[i]->saveToSvgFile(file);
 }
 
 unsigned int Group::getID() const {
@@ -80,31 +80,31 @@ Group::~Group() {
 
 void Group::allocateMem() {
     try {
-        this->elements = new Element *[this->capacity];
+        this->shapes = new Element*[this->capacity];
     }
     catch (std::bad_alloc &) {
-        this->elements = nullptr;
+        this->shapes = nullptr;
     }
 }
 
 void Group::resize() {
-    Element **copyElements = this->elements;
+    Element **copyElements = this->shapes;
     this->capacity *= 2;
 
     this->allocateMem();
 
-    if (this->elements == nullptr) {
-        this->elements = copyElements;
+    if (this->shapes == nullptr) {
+        this->shapes = copyElements;
         this->capacity /= 2;
         return;
     }
 
     for (unsigned i = 0; i < this->size; i++)
-        this->elements[i] = copyElements[i];
+        this->shapes[i] = copyElements[i];
 
     delete[] copyElements;
 }
 
 void Group::destroy() {
-    delete[] this->elements;
+    delete[] this->shapes;
 }

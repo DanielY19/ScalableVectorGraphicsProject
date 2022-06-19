@@ -18,6 +18,8 @@ public:
 
     void group(float tlX, float tlY, float brX, float brY);
 
+    void ungroup(unsigned id);
+
     void bringForward(unsigned id, unsigned n);
 
     void sendBackwards(unsigned id, unsigned n);

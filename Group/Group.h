@@ -1,7 +1,6 @@
 #ifndef SCALABLEVECTORGRAPHICS_GROUP_H
 #define SCALABLEVECTORGRAPHICS_GROUP_H
-#include "../Shape/Point/Point.h"
-#include "../Element/Element.h"
+#include "../Shape/Shape.h"
 
 class Group : public Element {
 public:
@@ -28,7 +27,7 @@ public:
     ~Group() override;
 
 private:
-    Element **elements;
+    Element **shapes;
     unsigned size;
     unsigned capacity;
 
