@@ -39,10 +39,9 @@ public:
     ~Canvas();
 
 private:
-    Element **elements;
+    std::vector<Element*> elements;
     ShapeFactory factory;
     unsigned size;
-    unsigned capacity;
 
     std::string currentFile;
 
@@ -53,10 +52,6 @@ private:
     void moveFront(Element *element, unsigned pos);
 
     void shiftBack(unsigned index);
-
-    void allocateMem();
-
-    void resize();
 
     void destroy();
 };

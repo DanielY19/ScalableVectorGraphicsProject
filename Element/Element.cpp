@@ -57,3 +57,7 @@ const Point &Element::getTL() const {
 const Point &Element::getBR() const {
     return this->BR;
 }
+
+std::vector<Element *> Element::ungroup() {
+    return std::vector<Element *>();
+}

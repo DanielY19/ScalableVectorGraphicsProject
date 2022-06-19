@@ -3,6 +3,7 @@
 
 #include "../Shape/Point/Point.h"
 #include <fstream>
+#include <vector>
 
 class Element {
 public:
@@ -41,6 +42,8 @@ public:
     const Point &getTL() const;
 
     const Point &getBR() const;
+
+    virtual std::vector<Element *> ungroup();
 
 protected:
     unsigned id;

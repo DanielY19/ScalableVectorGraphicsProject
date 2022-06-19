@@ -3,10 +3,7 @@
 #include <cstring>
 
 Canvas::Canvas()
-        : elements(nullptr), factory(), size(0), capacity(5), currentFile("default.txt") {
-    this->allocateMem();
-    if (elements == nullptr)
-        throw std::bad_alloc();
+        : factory(), size(0), currentFile("default.txt") {
 }
 
 void skip(std::ifstream &file) {
@@ -94,9 +91,26 @@ void Canvas::group(float tlX, float tlY, float brX, float brY) {
     this->addElement(elementGroup);
 }
 
+void Canvas::ungroup(unsigned int id) {
+    for (unsigned i = 0; i < this->size; i++)
+        if (this->elements[i]->getID() == id) {
+
+            std::vector<Element *> group = this->elements[i]->ungroup();
+            unsigned groupSize = group.size();
+
+            for (unsigned j = 0; j < groupSize; j++) {
+                this->addElement(group[j]);
+                this->moveBack(this->elements[this->size - 1], this->size - 1);
+            }
+
+            return;
+        }
+}
+
 void Canvas::bringForward(unsigned int id, unsigned int n) {
     int index = -1;
     unsigned oldId = id;
+    bool found = false;
 
     for (unsigned i = 0; i < this->size; i++)
         if (this->elements[i]->getID() == id) {
@@ -104,7 +118,11 @@ void Canvas::bringForward(unsigned int id, unsigned int n) {
             if (this->elements[i]->getID() == id)
                 return;
             index = i;
+            found = true;
         }
+
+    if (!found)
+        return;
 
     for (unsigned i = 0; i < this->size; i++) {
         if (i != index && this->elements[i]->getID() > oldId &&
@@ -119,6 +137,7 @@ void Canvas::bringForward(unsigned int id, unsigned int n) {
 void Canvas::sendBackwards(unsigned int id, unsigned int n) {
     int index = -1;
     unsigned oldId = id;
+    bool found = false;
 
     for (unsigned i = 0; i < this->size; i++)
         if (this->elements[i]->getID() == id) {
@@ -126,7 +145,12 @@ void Canvas::sendBackwards(unsigned int id, unsigned int n) {
             if (this->elements[i]->getID() == id)
                 return;
             index = i;
+            found = true;
         }
+
+
+    if (!found)
+        return;
 
     for (unsigned i = 0; i < this->size; i++) {
         if (i != index && this->elements[i]->getID() < oldId &&
@@ -196,8 +220,8 @@ void Canvas::saveSvg() const {
 
     file << "<svg width = \"100%\" height = \"100%\" >\n";
 
-    for (unsigned i = 0; i < this->size; i++)
-        this->elements[i]->saveToSvgFile(file);
+    for (unsigned j = 0; j < this->size; j++)
+        this->elements[j]->saveToSvgFile(file);
 
     file << "</svg>";
 
@@ -211,11 +235,8 @@ Canvas::~Canvas() {
 void Canvas::addElement(Element *element) {
     if (element == nullptr)
         return;
-    if (this->size == this->capacity)
-        this->resize();
-    if (this->size == this->capacity)
-        return;
-    this->elements[this->size++] = element;
+    this->elements.push_back(element);
+    ++this->size;
 }
 
 void Canvas::moveBack(Element *element, unsigned int pos) {
@@ -243,39 +264,11 @@ void Canvas::moveFront(Element *element, unsigned int pos) {
 void Canvas::shiftBack(unsigned int index) {
     for (unsigned i = index; i < this->size - 1; i++)
         this->elements[i] = this->elements[i + 1];
-    this->elements[this->size - 1] = nullptr;
+    this->elements.pop_back();
     this->size--;
-}
-
-void Canvas::allocateMem() {
-    try {
-        this->elements = new Element *[this->capacity];
-    }
-    catch (std::bad_alloc &) {
-        this->elements = nullptr;
-    }
-}
-
-void Canvas::resize() {
-    this->capacity *= 2;
-    Element **copyShapes = this->elements;
-
-    this->allocateMem();
-
-    if (this->elements == nullptr) {
-        this->elements = copyShapes;
-        this->capacity /= 2;
-        return;
-    }
-
-    for (unsigned i = 0; i < this->size; i++)
-        this->elements[i] = copyShapes[i];
-
-    delete[] copyShapes;
 }
 
 void Canvas::destroy() {
     for (unsigned i = 0; i < this->size; i++)
         delete this->elements[i];
-    delete[] this->elements;
 }

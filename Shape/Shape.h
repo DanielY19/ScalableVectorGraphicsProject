@@ -3,7 +3,6 @@
 
 #include "../Element/Element.h"
 #include <string>
-#include <vector>
 
 
 class Shape : public Element {

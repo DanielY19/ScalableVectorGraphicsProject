@@ -29,6 +29,12 @@ void Interface::commandLine() {
             this->image.group(tlX,tlY,brX,brY);
         }
 
+        else if(strcmp(command.c_str(),"ungroup")==0){
+            unsigned id;
+            std::cin>>id;
+            this->image.ungroup(id);
+        }
+
         else if (strcmp(command.c_str(), "bringForward") == 0) {
             unsigned id = 0;
             unsigned layers = 0;
@@ -59,12 +65,16 @@ void Interface::commandLine() {
 
         else if(strcmp(command.c_str(), "save") == 0){
             this->image.save();
-            break;
+            return;
         }
 
         else if(strcmp(command.c_str(), "saveAs") == 0){
             this->image.saveSvg();
-            break;
+            return;
+        }
+
+        else if(strcmp(command.c_str(),"exit")==0){
+            return;
         }
 
         std::cout << "\n\n";

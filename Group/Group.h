@@ -18,20 +18,13 @@ public:
 
     void saveToSvgFile(std::ofstream &file) const override;
 
-    unsigned getSize() const;
-
-    Element* giveElement(unsigned index);
+    std::vector<Element *> ungroup() override;
 
     ~Group() override;
 
 private:
-    Element **elements;
+    std::vector<Element*> elements;
     unsigned size;
-    unsigned capacity;
-
-    void allocateMem();
-
-    void resize();
 
     void destroy();
 
