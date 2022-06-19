@@ -90,26 +90,26 @@ void Canvas::group(float tlX, float tlY, float brX, float brY) {
     this->addElement(elementGroup);
 }
 
-/*
 
 void Canvas::bringForward(unsigned int id, unsigned int n) {
     int index = -1;
     unsigned oldId = id;
 
     for (unsigned i = 0; i < this->size; i++)
-        if (this->shapes[i]->getID() == id) {
-            this->shapes[i]->bringForward(n);
-            if (this->shapes[i]->getID() == id)
+        if (this->elements[i]->getID() == id) {
+            this->elements[i]->bringForward(n);
+            if (this->elements[i]->getID() == id)
                 return;
             index = i;
         }
 
     for (unsigned i = 0; i < this->size; i++) {
-        if (i != index && this->shapes[i]->getID() > oldId && this->shapes[index]->getID() >= this->shapes[i]->getID())
-            this->shapes[i]->sendBackwards(1);
+        if (i != index && this->elements[i]->getID() > oldId &&
+            this->elements[index]->getID() >= this->elements[i]->getID())
+            this->elements[i]->sendBackwards(1);
     }
 
-    this->moveFront(this->shapes[index], index);
+    this->moveFront(this->elements[index], index);
 }
 
 
@@ -118,25 +118,41 @@ void Canvas::sendBackwards(unsigned int id, unsigned int n) {
     unsigned oldId = id;
 
     for (unsigned i = 0; i < this->size; i++)
-        if (this->shapes[i]->getID() == id) {
-            this->shapes[i]->sendBackwards(n);
-            if (this->shapes[i]->getID() == id)
+        if (this->elements[i]->getID() == id) {
+            this->elements[i]->sendBackwards(n);
+            if (this->elements[i]->getID() == id)
                 return;
             index = i;
         }
 
     for (unsigned i = 0; i < this->size; i++) {
-        if (i != index && this->shapes[i]->getID() < oldId && this->shapes[index]->getID() <= this->shapes[i]->getID())
-            this->shapes[i]->bringForward(1);
+        if (i != index && this->elements[i]->getID() < oldId &&
+            this->elements[index]->getID() <= this->elements[i]->getID())
+            this->elements[i]->bringForward(1);
     }
 
-    this->moveBack(this->shapes[index], index);
+    this->moveBack(this->elements[index], index);
 }
 
-*/
 
 void Canvas::translate(int id, float verticalTrl, float horizontalTrl) {
+    for (unsigned i = 0; i < this->size; i++) {
+        if (this->elements[i]->getID() == id) {
+            this->elements[i]->translate(verticalTrl, horizontalTrl);
+            return;
+        } else if (id < 0)
+            this->elements[i]->translate(verticalTrl, horizontalTrl);
+    }
+}
 
+void Canvas::scale(int id, float verticalScl, float horizontalScl) {
+    for (unsigned i = 0; i < this->size; i++) {
+        if (this->elements[i]->getID() == id) {
+            this->elements[i]->scale(verticalScl, horizontalScl);
+            return;
+        } else if (id < 0)
+            this->elements[i]->scale(verticalScl, horizontalScl);
+    }
 }
 
 
@@ -197,6 +213,28 @@ void Canvas::addElement(Element *element) {
     if (this->size == this->capacity)
         return;
     this->elements[this->size++] = element;
+}
+
+void Canvas::moveBack(Element *element, unsigned int pos) {
+    unsigned i = pos;
+
+    while (i > 0 && this->elements[i - 1]->getID() > element->getID()) {
+        this->elements[i] = this->elements[i - 1];
+        --i;
+    }
+
+    this->elements[i] = element;
+}
+
+void Canvas::moveFront(Element *element, unsigned int pos) {
+    unsigned i = pos;
+
+    while (i < this->size - 1 && this->elements[i + 1]->getID() < element->getID()) {
+        this->elements[i] = this->elements[i + 1];
+        ++i;
+    }
+
+    this->elements[i] = element;
 }
 
 void Canvas::shiftBack(unsigned int index) {

@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstring>
 
-unsigned Shape::shapeIDGenerator = 1;
 
 const char *checkForNullptr(const char *str) {
     if (str == nullptr)
@@ -11,7 +10,7 @@ const char *checkForNullptr(const char *str) {
 }
 
 Shape::Shape(const char *stroke, const char *fill, const Point &TL, const Point &BR)
-        : Element(TL, BR, Shape::shapeIDGenerator++), stroke(checkForNullptr(stroke)), fill(checkForNullptr(fill)) {}
+        : Element(TL, BR), stroke(checkForNullptr(stroke)), fill(checkForNullptr(fill)) {}
 
 
 void Shape::print() const {
@@ -21,23 +20,6 @@ void Shape::print() const {
         this->points[i].print();
 }
 
-void Shape::bringForward(unsigned int layers) {
-    if (layers + this->id > Shape::shapeIDGenerator) {
-        std::cerr << "Cannot move shape,because it will go out of bounds!";
-        return;
-    }
-
-    this->id += layers;
-}
-
-void Shape::sendBackwards(unsigned int layers) {
-    if (layers >= this->id) {
-        std::cerr << "Cannot move shape,because it will go out of bounds!";
-        return;
-    }
-
-    this->id -= layers;
-}
 
 void Shape::translate(float verticalTrl, float horizontalTrl) {
     unsigned size = this->points.size();
@@ -45,11 +27,6 @@ void Shape::translate(float verticalTrl, float horizontalTrl) {
     for (unsigned i = 0; i < size; i++)
         this->points[i].translate(verticalTrl, horizontalTrl);
 }
-
-unsigned int Shape::getID() const {
-    return this->id;
-}
-
 
 ShapeCreator::ShapeCreator(const char *targetedShape)
         : shape(targetedShape) {}

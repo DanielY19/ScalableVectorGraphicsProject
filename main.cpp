@@ -4,6 +4,5 @@
 int main() {
     Interface user;
     user.commandLine();
-
     return 0;
 }

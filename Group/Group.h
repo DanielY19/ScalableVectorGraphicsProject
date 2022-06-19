@@ -10,24 +10,22 @@ public:
 
     void print() const override;
 
-    void bringForward(unsigned layers) override;
-
-    void sendBackwards(unsigned layers) override;
-
     void translate(float verticalTrl, float horizontalTrl) override;
 
     void scale(float verticalScl, float horizontalScl) override;
 
-    //virtual void rotate(int angle) = 0;//for later
+    //void rotate(int angle) override;//for later
 
     void saveToSvgFile(std::ofstream &file) const override;
 
-    unsigned getID() const override;
+    unsigned getSize() const;
+
+    Element* getElementAtIndex(unsigned index);
 
     ~Group() override;
 
 private:
-    Element **shapes;
+    Element **elements;
     unsigned size;
     unsigned capacity;
 
@@ -41,7 +39,6 @@ private:
     Point TL;
     Point BR;
 
-    static unsigned groupIDGenerator;
 };
 
 

@@ -23,6 +23,11 @@ void Interface::commandLine() {
         else if (strcmp(command.c_str(), "create") == 0)
             this->image.create(std::cin);
 
+        else if(strcmp(command.c_str(),"group")==0){
+            float tlX,tlY,brX,brY;
+            std::cin>>tlX>>tlY>>brX>>brY;
+            this->image.group(tlX,tlY,brX,brY);
+        }
 
         else if (strcmp(command.c_str(), "bringForward") == 0) {
             unsigned id = 0;

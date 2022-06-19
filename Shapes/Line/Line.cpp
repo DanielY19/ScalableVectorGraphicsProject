@@ -32,16 +32,6 @@ void Line::scale(float verticalScl, float horizontalScl) {
 }
 
 
-bool Line::isContained(float tlX, float tlY, float brX, float brY) const {
-    bool tlXContained = (this->points[Line::FIRST].getX() >= tlX && this->points[Line::SECOND].getX() >= tlX);
-    bool brXContained = (this->points[Line::FIRST].getX() <= brX && this->points[Line::SECOND].getX() <= brX);
-
-    bool tlYContained = (this->points[Line::FIRST].getY() <= tlY && this->points[Line::SECOND].getY() <= tlY);
-    bool brYContained = (this->points[Line::FIRST].getY() >= brY && this->points[Line::SECOND].getY() >= brY);
-
-    return tlXContained && brXContained && tlYContained && brYContained;
-}
-
 void Line::saveToSvgFile(std::ofstream &file) const {
     file << "<line ";
     file << "x1 = \"" << this->points[Line::FIRST].getX() << "\" ";

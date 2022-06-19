@@ -6,15 +6,15 @@
 
 class Element {
 public:
-    Element(const Point &TL, const Point &BR,unsigned id);
+    Element(const Point &TL, const Point &BR);
 
     Element(const Element &other) = delete;
 
     virtual void print() const = 0;
 
-    virtual void bringForward(unsigned layers) = 0;
+    void bringForward(unsigned layers);
 
-    virtual void sendBackwards(unsigned layers) = 0;
+    void sendBackwards(unsigned layers) ;
 
     virtual void translate(float verticalTrl, float horizontalTrl) = 0;
 
@@ -22,11 +22,11 @@ public:
 
     //virtual void rotate(int angle) = 0;//for later
 
-    virtual bool isContained(float tlX, float tlY, float brX, float brY) const;
+    bool isContained(float tlX, float tlY, float brX, float brY) const;
 
     virtual void saveToSvgFile(std::ofstream &file) const = 0;
 
-    virtual unsigned getID() const = 0;
+    unsigned getID() const;
 
     Element &operator=(const Element &other) = delete;
 
@@ -44,6 +44,8 @@ public:
 
 protected:
     unsigned id;
+
+    static unsigned idGenerator;
 private:
     Point TL;
     Point BR;

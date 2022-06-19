@@ -11,23 +11,17 @@ public:
 
     Shape(const Shape &other) = delete;
 
-    virtual void print() const override;
-
-    void bringForward(unsigned layers) override;
-
-    void sendBackwards(unsigned layers) override;
+    void print() const override;
 
     void translate(float verticalTrl, float horizontalTrl) override;
 
-    virtual void scale(float verticalScl, float horizontalScl) = 0;
+    void scale(float verticalScl, float horizontalScl) override = 0;
 
     //virtual void rotate(int angle) = 0;//for later
 
-    virtual void saveToSvgFile(std::ofstream& file) const = 0;
+    void saveToSvgFile(std::ofstream& file) const override = 0;
 
     Shape &operator=(const Shape &other) = delete;
-
-    unsigned getID() const override;
 
     ~Shape() override = default;
 
@@ -35,9 +29,6 @@ protected:
     std::vector<Point> points;
     std::string stroke;
     std::string fill;
-
-    static unsigned shapeIDGenerator;
-
 };
 
 

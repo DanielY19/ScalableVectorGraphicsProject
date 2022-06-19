@@ -18,7 +18,7 @@ public:
 
     void group(float tlX, float tlY, float brX, float brY);
 
-    void ungroup(unsigned id);
+    //void ungroup(unsigned id);
 
     void bringForward(unsigned id, unsigned n);
 
@@ -47,6 +47,10 @@ private:
     std::string currentFile;
 
     void addElement(Element *element);
+
+    void moveBack(Element *element, unsigned pos);
+
+    void moveFront(Element *element, unsigned pos);
 
     void shiftBack(unsigned index);
 
