@@ -20,6 +20,12 @@ void Rectangle::print() const {
     std::cout << this->stroke << ' ' << this->fill << "\n\n";
 }
 
+void Rectangle::translate(float verticalTrl, float horizontalTrl) {
+    this->points[Rectangle::TOPLEFT].translate(verticalTrl, horizontalTrl);
+    this->points[Rectangle::BOTTOMRIGHT].translate(verticalTrl, horizontalTrl);
+    this->changeSurroundingRectangle(this->points[Rectangle::TOPLEFT], this->points[Rectangle::BOTTOMRIGHT]);
+}
+
 void Rectangle::scale(float verticalScl, float horizontalScl) {
     this->height *= verticalScl;
     this->width *= horizontalScl;
@@ -39,8 +45,7 @@ void Rectangle::scale(float verticalScl, float horizontalScl) {
         Rectangle::BOTTOMRIGHT = temp;
     }
 
-    this->changeTL(this->points[Rectangle::TOPLEFT].getX(), this->points[Rectangle::TOPLEFT].getY());
-    this->changeBR(this->points[Rectangle::BOTTOMRIGHT].getX(), this->points[Rectangle::BOTTOMRIGHT].getY());
+    this->changeSurroundingRectangle(this->points[Rectangle::TOPLEFT], this->points[Rectangle::BOTTOMRIGHT]);
 }
 
 void Rectangle::saveToSvgFile(std::ofstream &file) const {

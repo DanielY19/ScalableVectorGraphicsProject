@@ -20,13 +20,11 @@ void Shape::print() const {
         this->points[i].print();
 }
 
-
-void Shape::translate(float verticalTrl, float horizontalTrl) {
-    unsigned size = this->points.size();
-
-    for (unsigned i = 0; i < size; i++)
-        this->points[i].translate(verticalTrl, horizontalTrl);
+void Shape::changeSurroundingRectangle(const Point &TL, const Point &BR) {
+    this->changeTL(TL.getX(), TL.getY());
+    this->changeBR(BR.getX(), BR.getY());
 }
+
 
 ShapeCreator::ShapeCreator(const char *targetedShape)
         : shape(targetedShape) {}

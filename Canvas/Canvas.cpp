@@ -81,12 +81,16 @@ void Canvas::group(float tlX, float tlY, float brX, float brY) {
         return;
     }
 
-    for (unsigned i = 0; i < this->size; i++)
+    int i = 0;
+
+    while (i != this->size) {
         if (this->elements[i]->isContained(tlX, tlY, brX, brY)) {
             elementGroup->addElement(this->elements[i]);
             this->shiftBack(i);
+            --i;
         }
-
+        ++i;
+    }
     this->addElement(elementGroup);
 }
 

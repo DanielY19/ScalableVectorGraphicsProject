@@ -20,7 +20,7 @@ public:
 
     unsigned getSize() const;
 
-    Element* getElementAtIndex(unsigned index);
+    Element* giveElement(unsigned index);
 
     ~Group() override;
 

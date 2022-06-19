@@ -1,11 +1,12 @@
 #ifndef SCALABLEVECTORGRAPHICS_SHAPE_H
 #define SCALABLEVECTORGRAPHICS_SHAPE_H
+
 #include "../Element/Element.h"
 #include <string>
 #include <vector>
 
 
-class Shape :public Element{
+class Shape : public Element {
 public:
     Shape(const char *stroke, const char *fill, const Point &TL, const Point &BR);
 
@@ -13,13 +14,13 @@ public:
 
     void print() const override;
 
-    void translate(float verticalTrl, float horizontalTrl) override;
+    void translate(float verticalTrl, float horizontalTrl) override = 0;
 
     void scale(float verticalScl, float horizontalScl) override = 0;
 
     //virtual void rotate(int angle) = 0;//for later
 
-    void saveToSvgFile(std::ofstream& file) const override = 0;
+    void saveToSvgFile(std::ofstream &file) const override = 0;
 
     Shape &operator=(const Shape &other) = delete;
 
@@ -29,6 +30,8 @@ protected:
     std::vector<Point> points;
     std::string stroke;
     std::string fill;
+
+    void changeSurroundingRectangle(const Point &TL, const Point &BR);
 };
 
 
@@ -64,6 +67,6 @@ bool findSource(char *buffer, const char *source, std::ifstream &file);
 
 float parseToNumber(std::ifstream &file, unsigned currentIndex);
 
-const char *parseToText(std::ifstream& file,unsigned currentIndex);
+const char *parseToText(std::ifstream &file, unsigned currentIndex);
 
 #endif //SCALABLEVECTORGRAPHICS_SHAPE_H

@@ -9,6 +9,8 @@ public:
 
     void print() const override;
 
+    void translate(float verticalTrl, float horizontalTrl) override;
+
     void scale(float verticalScl, float horizontalScl) override;
 
     void saveToSvgFile(std::ofstream& file) const override;
@@ -17,6 +19,8 @@ public:
 
 private:
     const static unsigned FIRST = 0;
+
+    void calculateSurroundingRectangle();
 };
 
 

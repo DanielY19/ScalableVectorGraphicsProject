@@ -60,9 +60,9 @@ float getYMax(const Point *points, unsigned int pointsSize) {
 
 Polygon::Polygon(const Point *points, unsigned int pointsSize, const char *stroke,
                  const char *fill)
-        : Shape(stroke, fill, Point(getXMin(points, pointsSize), getYMax(points, pointsSize)),
+        : Shape(stroke, fill, Point(getXMin(points, pointsSize), getYMin(points, pointsSize)),
                 Point(getXMax(points, pointsSize),
-                      getYMin(points, pointsSize))) {
+                      getYMax(points, pointsSize))) {
 
     for (unsigned i = 0; i < pointsSize; i++)
         this->points.push_back(points[i]);
@@ -74,6 +74,15 @@ void Polygon::print() const {
     std::cout << this->stroke << ' ' << this->fill << "\n\n";
 }
 
+void Polygon::translate(float verticalTrl, float horizontalTrl) {
+    unsigned size = this->points.size();
+
+    for (unsigned i = 0; i < size; i++)
+        this->points[i].translate(verticalTrl,horizontalTrl);
+
+    this->calculateSurroundingRectangle();
+}
+
 void Polygon::scale(float verticalScl, float horizontalScl) {
     unsigned size = this->points.size();
     std::vector<Point> copyPoints(this->points);
@@ -83,11 +92,7 @@ void Polygon::scale(float verticalScl, float horizontalScl) {
 
     scaleForLineAndPolygon(copyPoints[size - 1], this->points[0], verticalScl, horizontalScl);
 
-    this->changeTL(getXMin(this->points.data(), this->points.size()),
-                   getYMax(this->points.data(), this->points.size()));
-
-    this->changeBR(getXMax(this->points.data(), this->points.size()),
-                   getYMin(this->points.data(), this->points.size()));
+    this->calculateSurroundingRectangle();
 }
 
 void Polygon::saveToSvgFile(std::ofstream &file) const {
@@ -104,6 +109,14 @@ void Polygon::saveToSvgFile(std::ofstream &file) const {
     file << "stroke = \"" << this->stroke << "\" ";
     file << "fill = \"" << this->fill << "\" ";
     file << "/>\n";
+}
+
+void Polygon::calculateSurroundingRectangle() {
+    this->changeTL(getXMin(this->points.data(), this->points.size()),
+                   getYMin(this->points.data(), this->points.size()));
+
+    this->changeBR(getXMax(this->points.data(), this->points.size()),
+                   getYMax(this->points.data(), this->points.size()));
 }
 
 bool isNumeric(const char *data) {
@@ -269,7 +282,7 @@ Element *PolygonCreator::svgCreateShape(std::ifstream &file) const {
         const char *stroke = findTextAttribute(file, "stroke");
         const char *fill = findTextAttribute(file, "fill");
 
-        Element *obj = new Polygon(points.data(),points.size(),stroke,fill);
+        Element *obj = new Polygon(points.data(), points.size(), stroke, fill);
         delete[] stroke;
         delete[] fill;
 

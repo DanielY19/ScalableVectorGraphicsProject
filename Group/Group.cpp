@@ -50,7 +50,8 @@ unsigned int Group::getSize() const {
     return this->size;
 }
 
-Element *Group::getElementAtIndex(unsigned int index) {
+Element *Group::giveElement(unsigned int index) {
+    this->size--;
     return this->elements[index];
 }
 
@@ -60,7 +61,7 @@ Group::~Group() {
 
 void Group::allocateMem() {
     try {
-        this->elements = new Element*[this->capacity];
+        this->elements = new Element *[this->capacity];
     }
     catch (std::bad_alloc &) {
         this->elements = nullptr;
@@ -86,7 +87,7 @@ void Group::resize() {
 }
 
 void Group::destroy() {
-    for(unsigned i=0;i< this->size;i++)
+    for (unsigned i = 0; i < this->size; i++)
         delete this->elements[i];
     delete[] this->elements;
 }

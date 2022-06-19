@@ -17,18 +17,18 @@ void Circle::print() const {
     std::cout << this->stroke << ' ' << this->fill << "\n\n";
 }
 
+void Circle::translate(float verticalTrl, float horizontalTrl) {
+    this->points[Circle::CENTER].translate(verticalTrl, horizontalTrl);
+    this->calculateSurroundingRectangle();
+}
+
 void Circle::scale(float verticalScl, float horizontalScl) {
     if (verticalScl < 0)
         throw std::invalid_argument("Radius cannot be scaled negatively!");
 
     this->radius *= verticalScl;
 
-    this->changeTL(this->points[Circle::CENTER].getX() - this->radius,
-                   this->points[Circle::CENTER].getY() + this->radius);
-
-    this->changeBR(this->points[Circle::CENTER].getX() + this->radius,
-                   this->points[Circle::CENTER].getY() - this->radius);
-
+    this->calculateSurroundingRectangle();
 }
 
 void Circle::saveToSvgFile(std::ofstream &file) const {
@@ -39,6 +39,14 @@ void Circle::saveToSvgFile(std::ofstream &file) const {
     file << "stroke = \"" << this->stroke << "\" ";
     file << "fill = \"" << this->fill << "\" ";
     file << "/>\n";
+}
+
+void Circle::calculateSurroundingRectangle() {
+    this->changeTL(this->points[Circle::CENTER].getX() - this->radius,
+                   this->points[Circle::CENTER].getY() + this->radius);
+
+    this->changeBR(this->points[Circle::CENTER].getX() + this->radius,
+                   this->points[Circle::CENTER].getY() - this->radius);
 }
 
 Element *CircleCreator::userCreateShape(std::istream &input) const {

@@ -9,9 +9,11 @@ public:
 
     void print() const override;
 
+    void translate(float verticalTrl, float horizontalTrl) override;
+
     void scale(float verticalScl, float horizontalScl) override;
 
-    void saveToSvgFile(std::ofstream& file) const override;
+    void saveToSvgFile(std::ofstream &file) const override;
 
     ~Circle() override = default;
 
@@ -19,6 +21,8 @@ private:
     const static unsigned CENTER = 0;
 
     float radius;
+
+    void calculateSurroundingRectangle();
 };
 
 class CircleCreator : public ShapeCreator {
@@ -27,7 +31,7 @@ public:
 
     Element *userCreateShape(std::istream &input) const override;
 
-    Element *svgCreateShape(std::ifstream& file) const override;
+    Element *svgCreateShape(std::ifstream &file) const override;
 };
 
 

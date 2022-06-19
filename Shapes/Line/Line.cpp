@@ -16,6 +16,12 @@ void Line::print() const {
     std::cout << this->stroke << "\n\n";
 }
 
+void Line::translate(float verticalTrl, float horizontalTrl) {
+    this->points[Line::FIRST].translate(verticalTrl,horizontalTrl);
+    this->points[Line::SECOND].translate(verticalTrl,horizontalTrl);
+    this->changeSurroundingRectangle(this->points[Line::FIRST], this->points[Line::SECOND]);
+}
+
 void Line::scale(float verticalScl, float horizontalScl) {
     scaleForLineAndPolygon(this->points[Line::FIRST], this->points[Line::SECOND], verticalScl, horizontalScl);
 
@@ -26,9 +32,7 @@ void Line::scale(float verticalScl, float horizontalScl) {
         Line::SECOND = temp;
     }
 
-
-    this->changeTL(this->points[Line::FIRST].getX(), this->points[Line::FIRST].getY());
-    this->changeBR(this->points[Line::SECOND].getX(), this->points[Line::SECOND].getY());
+    this->changeSurroundingRectangle(this->points[Line::FIRST], this->points[Line::SECOND]);
 }
 
 
