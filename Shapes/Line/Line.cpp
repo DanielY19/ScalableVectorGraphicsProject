@@ -19,14 +19,13 @@ void Line::print() const {
 void Line::scale(float verticalScl, float horizontalScl) {
     scaleForLineAndPolygon(this->points[Line::FIRST], this->points[Line::SECOND], verticalScl, horizontalScl);
 
-    bool onTop = this->points[Line::SECOND].getY() > this->points[Line::FIRST].getY();
-    bool onLeft = this->points[Line::SECOND].getX() < this->points[Line::FIRST].getX();
 
-    if (onTop && onLeft) {
+    if (this->points[Line::SECOND] < this->points[Line::FIRST]) {
         unsigned temp = Line::FIRST;
         Line::FIRST = Line::SECOND;
         Line::SECOND = temp;
     }
+
 
     this->changeTL(this->points[Line::FIRST].getX(), this->points[Line::FIRST].getY());
     this->changeBR(this->points[Line::SECOND].getX(), this->points[Line::SECOND].getY());

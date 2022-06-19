@@ -11,7 +11,7 @@ const char *checkForNullptr(const char *str) {
 }
 
 Shape::Shape(const char *stroke, const char *fill, const Point &TL, const Point &BR)
-        : id(Shape::idGenerator++), stroke(checkForNullptr(stroke)), fill(checkForNullptr(fill)), TL(TL), BR(BR) {}
+        : Element(TL, BR), id(Shape::idGenerator++), stroke(checkForNullptr(stroke)), fill(checkForNullptr(fill)) {}
 
 
 void Shape::print() const {
@@ -46,39 +46,10 @@ void Shape::translate(float verticalTrl, float horizontalTrl) {
         this->points[i].translate(verticalTrl, horizontalTrl);
 }
 
-bool Shape::isContained(float tlX, float tlY, float brX, float brY) const {
-    bool first = (this->getTL().getX() >= tlX) && (this->getTL().getY() <= tlY);
-
-    bool second = (this->getBR().getX() <= brX) &&
-                  (this->getBR().getY() >= brY);
-
-    return first && second;
-}
-
-
-unsigned Shape::getID() const {
+unsigned Shape::getID(bool max) const {
     return this->id;
 }
 
-Point Shape::getCenterOfSurroundingRect() const {
-    return Point((this->TL.getX() + this->BR.getX()) / 2, (this->TL.getY() + this->BR.getY()) / 2);
-}
-
-void Shape::changeTL(float x, float y) {
-    this->TL.change(x, y);
-}
-
-void Shape::changeBR(float x, float y) {
-    this->BR.change(x, y);
-}
-
-const Point &Shape::getTL() const {
-    return this->TL;
-}
-
-const Point &Shape::getBR() const {
-    return this->BR;
-}
 
 ShapeCreator::ShapeCreator(const char *targetedShape)
         : shape(targetedShape) {}

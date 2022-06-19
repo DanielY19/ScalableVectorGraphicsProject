@@ -1,12 +1,14 @@
 #ifndef SCALABLEVECTORGRAPHICS_ELEMENT_H
 #define SCALABLEVECTORGRAPHICS_ELEMENT_H
+
+#include "../Shape/Point/Point.h"
 #include <fstream>
 
 class Element {
 public:
-    Element() = default;
+    Element(const Point &TL, const Point &BR);
 
-    Element(const Element& other) = delete;
+    Element(const Element &other) = delete;
 
     virtual void print() const = 0;
 
@@ -20,15 +22,29 @@ public:
 
     //virtual void rotate(int angle) = 0;//for later
 
-    virtual bool isContained(float tlX, float tlY, float brX, float brY) const = 0;
+    virtual bool isContained(float tlX, float tlY, float brX, float brY) const;
 
-    virtual void saveToSvgFile(std::ofstream& file) const = 0;
+    virtual void saveToSvgFile(std::ofstream &file) const = 0;
 
-    virtual unsigned getID() const = 0;
+    virtual unsigned getID(bool max) const = 0;
 
-    Element& operator=(const Element& other) = delete;
+    Element &operator=(const Element &other) = delete;
 
-    ~Element() = default;
+    virtual ~Element() = default;
+
+    Point getCenterOfSurroundingRect() const;
+
+    void changeTL(float x, float y);
+
+    void changeBR(float x, float y);
+
+    const Point &getTL() const;
+
+    const Point &getBR() const;
+
+private:
+    Point TL;
+    Point BR;
 };
 
 

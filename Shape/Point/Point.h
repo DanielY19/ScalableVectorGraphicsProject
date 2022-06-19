@@ -22,6 +22,10 @@ public:
 
     void translate(float verticalTrl, float horizontalTrl);
 
+    bool operator<(const Point &other) const;
+
+    bool operator>(const Point &other) const;
+
 private:
     float x;
     float y;

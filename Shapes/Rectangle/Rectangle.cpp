@@ -23,7 +23,8 @@ void Rectangle::print() const {
 void Rectangle::scale(float verticalScl, float horizontalScl) {
     this->height *= verticalScl;
     this->width *= horizontalScl;
-    this->points[BOTTOMRIGHT].change(this->points[TOPLEFT].getX() + width, this->points[TOPLEFT].getY() - height);
+    this->points[Rectangle::BOTTOMRIGHT].change(this->points[Rectangle::TOPLEFT].getX() + width,
+                                                this->points[Rectangle::TOPLEFT].getY() - height);
 
     if (this->height < 0)
         this->height *= -1;
@@ -32,10 +33,7 @@ void Rectangle::scale(float verticalScl, float horizontalScl) {
         this->width *= -1;
 
 
-    bool onTop = this->points[Rectangle::BOTTOMRIGHT].getY() > this->points[Rectangle::TOPLEFT].getY();
-    bool onLeft = this->points[Rectangle::BOTTOMRIGHT].getX() < this->points[Rectangle::TOPLEFT].getX();
-
-    if (onTop && onLeft) {
+    if (this->points[Rectangle::BOTTOMRIGHT] < this->points[Rectangle::TOPLEFT]) {
         unsigned temp = Rectangle::TOPLEFT;
         Rectangle::TOPLEFT = Rectangle::BOTTOMRIGHT;
         Rectangle::BOTTOMRIGHT = temp;

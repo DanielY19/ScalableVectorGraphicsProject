@@ -28,19 +28,22 @@ void Point::print() const {
     std::cout << this->x << ' ' << this->y << ' ';
 }
 
+
+void Point::change(float x, float y) {
+    this->setX(x);
+    this->setY(y);
+}
+
 void Point::translate(float verticalTrl, float horizontalTrl) {
     this->y += verticalTrl;
     this->x += horizontalTrl;
 }
 
-/*
-void Point::scale(float verticalScl, float horizontalScl) {
-    this->y *= verticalScl;
-    this->x *= horizontalScl;
-}
-*/
 
-void Point::change(float x, float y) {
-    this->setX(x);
-    this->setY(y);
+bool Point::operator<(const Point &other) const {
+    return this->x < other.x && this->y > other.y;
+}
+
+bool Point::operator>(const Point &other) const {
+    return this->x > other.x && this->y < other.y;
 }

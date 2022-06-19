@@ -3,7 +3,7 @@
 #include "../Element/Element.h"
 #include <string>
 #include <vector>
-#include "Point/Point.h"
+
 
 class Shape :public Element{
 public:
@@ -23,39 +23,23 @@ public:
 
     //virtual void rotate(int angle) = 0;//for later
 
-    bool isContained(float tlX, float tlY, float brX, float brY) const override;
-
     virtual void saveToSvgFile(std::ofstream& file) const = 0;
 
     Shape &operator=(const Shape &other) = delete;
 
-    unsigned getID() const override;
+    unsigned getID(bool max) const override;
 
-    virtual ~Shape() = default;
+    ~Shape() override = default;
 
 protected:
     std::vector<Point> points;
     std::string stroke;
     std::string fill;
 
-    Point getCenterOfSurroundingRect() const;
-
-    void changeTL(float x, float y);
-
-    void changeBR(float x, float y);
-
-    const Point &getTL() const;
-
-    const Point &getBR() const;
-
 private:
     static unsigned idGenerator;
 
     unsigned id;
-
-    //Surrounding rectangle
-    Point TL;
-    Point BR;
 };
 
 

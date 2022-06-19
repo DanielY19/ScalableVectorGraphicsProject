@@ -116,25 +116,6 @@ void Canvas::sendBackwards(unsigned int id, unsigned int n) {
 
 */
 
-void Canvas::translate(int id, float verticalTrl, float horizontalTrl) {
-    for (unsigned i = 0; i < this->size; i++)
-        if (id < 0)
-            this->elements[i]->translate(verticalTrl, horizontalTrl);
-        else if (id == this->elements[i]->getID()) {
-            this->elements[i]->translate(verticalTrl, horizontalTrl);
-            break;
-        }
-}
-
-void Canvas::scale(int id, float verticalScl, float horizontalScl) {
-    for (unsigned i = 0; i < this->size; i++)
-        if (id < 0)
-            this->elements[i]->scale(verticalScl, horizontalScl);
-        else if (id == this->elements[i]->getID()) {
-            this->elements[i]->scale(verticalScl, horizontalScl);
-            break;
-        }
-}
 
 void Canvas::save() {
     std::ofstream file(currentFile.c_str(), std::ios::trunc);
@@ -195,27 +176,6 @@ void Canvas::addElement(Element *element) {
     this->elements[this->size++] = element;
 }
 
-void Canvas::moveBack(Element *element, unsigned int pos) {
-    unsigned i = pos;
-
-    while (i > 0 && this->elements[i - 1]->getID() > element->getID()) {
-        this->elements[i] = this->elements[i - 1];
-        --i;
-    }
-
-    this->elements[i] = element;
-}
-
-void Canvas::moveFront(Element *element, unsigned int pos) {
-    unsigned i = pos;
-
-    while (i < this->size - 1 && this->elements[i + 1]->getID() < element->getID()) {
-        this->elements[i] = this->elements[i + 1];
-        ++i;
-    }
-
-    this->elements[i] = element;
-}
 
 void Canvas::allocateMem() {
     try {
