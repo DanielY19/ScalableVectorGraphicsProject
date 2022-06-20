@@ -11,11 +11,15 @@ void Group::addElement(Element *element) {
     this->elements.push_back(element);
     ++this->size;
 
-    if (element->getTL() < this->TL)
+    if (this->size == 1) {
         this->TL.change(element->getTL().getX(), element->getTL().getY());
-
-    if (element->getBR() > this->BR)
-        this->BR.change(element->getBR().getX(), element->getBR().getY());
+        this->BR.change(element->getBR().getX(), element->getTL().getY());
+    } else {
+        if (element->getTL() < this->TL)
+            this->TL.change(element->getTL().getX(), element->getTL().getY());
+        if (element->getBR() > this->BR)
+            this->BR.change(element->getBR().getX(), element->getBR().getY());
+    }
 }
 
 void Group::print() const {
