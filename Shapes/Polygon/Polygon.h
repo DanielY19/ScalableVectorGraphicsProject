@@ -18,8 +18,6 @@ public:
     ~Polygon() override = default;
 
 private:
-    const static unsigned FIRST = 0;
-
     void calculateSurroundingRectangle();
 };
 

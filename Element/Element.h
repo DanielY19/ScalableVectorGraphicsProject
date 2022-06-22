@@ -31,24 +31,24 @@ public:
 
     unsigned getID() const;
 
+    virtual std::vector<Element *> ungroup();
+
+    const Point &getTL() const;
+
+    const Point &getBR() const;
+
     Element &operator=(const Element &other) = delete;
 
     virtual ~Element() = default;
+
+protected:
+    unsigned id;
 
     Point getCenterOfSurroundingRect() const;
 
     void changeTL(float x, float y);
 
     void changeBR(float x, float y);
-
-    const Point &getTL() const;
-
-    const Point &getBR() const;
-
-    virtual std::vector<Element *> ungroup();
-
-protected:
-    unsigned id;
 
 private:
     Point TL;
