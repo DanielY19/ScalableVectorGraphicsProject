@@ -89,7 +89,7 @@ void Interface::commandLine() {
         else if(strcmp(command.c_str(),"exit")==0){
             return;
         }
-
+        
         std::cout << "\n\n";
     }
 }

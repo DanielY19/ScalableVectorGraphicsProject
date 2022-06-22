@@ -27,11 +27,6 @@ private:
     unsigned size;
 
     void destroy();
-
-private:
-    Point TL;
-    Point BR;
-
 };
 
 

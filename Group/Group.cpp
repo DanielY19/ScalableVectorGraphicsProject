@@ -2,7 +2,7 @@
 
 
 Group::Group()
-        : Element(Point(), Point()), size(0), TL(), BR() {
+        : Element(Point(), Point()), size(0) {
 }
 
 void Group::addElement(Element *element) {
@@ -12,13 +12,13 @@ void Group::addElement(Element *element) {
     ++this->size;
 
     if (this->size == 1) {
-        this->TL.change(element->getTL().getX(), element->getTL().getY());
-        this->BR.change(element->getBR().getX(), element->getTL().getY());
+        this->changeTL(element->getTL().getX(), element->getTL().getY());
+        this->changeBR(element->getBR().getX(), element->getBR().getY());
     } else {
-        if (element->getTL() <= this->TL)
-            this->TL.change(element->getTL().getX(), element->getTL().getY());
-        if (element->getBR() >= this->BR)
-            this->BR.change(element->getBR().getX(), element->getBR().getY());
+        if (element->getTL() <= this->getTL())
+            this->changeTL(element->getTL().getX(), element->getTL().getY());
+        if (element->getBR() >= this->getBR())
+            this->changeBR(element->getBR().getX(), element->getBR().getY());
     }
 }
 
