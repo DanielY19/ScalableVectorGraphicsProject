@@ -26,7 +26,7 @@ void Line::scale(float verticalScl, float horizontalScl) {
     scaleForLineAndPolygon(this->points[Line::FIRST], this->points[Line::SECOND], verticalScl, horizontalScl);
 
 
-    if (this->points[Line::SECOND] < this->points[Line::FIRST]) {
+    if (this->points[Line::SECOND] <= this->points[Line::FIRST]) {
         unsigned temp = Line::FIRST;
         Line::FIRST = Line::SECOND;
         Line::SECOND = temp;

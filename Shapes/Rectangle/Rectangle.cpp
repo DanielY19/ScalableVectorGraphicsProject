@@ -39,7 +39,7 @@ void Rectangle::scale(float verticalScl, float horizontalScl) {
         this->width *= -1;
 
 
-    if (this->points[Rectangle::BOTTOMRIGHT] < this->points[Rectangle::TOPLEFT]) {
+    if (this->points[Rectangle::BOTTOMRIGHT] <= this->points[Rectangle::TOPLEFT]) {
         unsigned temp = Rectangle::TOPLEFT;
         Rectangle::TOPLEFT = Rectangle::BOTTOMRIGHT;
         Rectangle::BOTTOMRIGHT = temp;

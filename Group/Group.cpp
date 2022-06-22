@@ -15,9 +15,9 @@ void Group::addElement(Element *element) {
         this->TL.change(element->getTL().getX(), element->getTL().getY());
         this->BR.change(element->getBR().getX(), element->getTL().getY());
     } else {
-        if (element->getTL() < this->TL)
+        if (element->getTL() <= this->TL)
             this->TL.change(element->getTL().getX(), element->getTL().getY());
-        if (element->getBR() > this->BR)
+        if (element->getBR() >= this->BR)
             this->BR.change(element->getBR().getX(), element->getBR().getY());
     }
 }
