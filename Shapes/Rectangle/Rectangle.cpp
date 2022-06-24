@@ -2,11 +2,9 @@
 #include <iostream>
 #include <stdexcept>
 
-unsigned Rectangle::TOPLEFT = 0;
-unsigned Rectangle::BOTTOMRIGHT = 1;
 
 Rectangle::Rectangle(float x, float y, float width, float height, const char *stroke, const char *fill)
-        : Shape(stroke, fill, Point(x, y), Point(x + width, y + height)), width(width), height(height) {
+        : Shape(stroke, fill, Point(x, y), Point(x + width, y + height)), width(width), height(height),topLeft(0),bottomRight(1) {
     if (width < 0 || height < 0)
         throw std::invalid_argument("Height or width cannot be negative!");
 
@@ -21,16 +19,16 @@ void Rectangle::print() const {
 }
 
 void Rectangle::translate(float verticalTrl, float horizontalTrl) {
-    this->points[Rectangle::TOPLEFT].translate(verticalTrl, horizontalTrl);
-    this->points[Rectangle::BOTTOMRIGHT].translate(verticalTrl, horizontalTrl);
-    this->changeSurroundingRectangle(this->points[Rectangle::TOPLEFT], this->points[Rectangle::BOTTOMRIGHT]);
+    this->points[this->topLeft].translate(verticalTrl, horizontalTrl);
+    this->points[this->bottomRight].translate(verticalTrl, horizontalTrl);
+    this->changeSurroundingRectangle(this->points[this->topLeft], this->points[this->bottomRight]);
 }
 
 void Rectangle::scale(float verticalScl, float horizontalScl) {
     this->height *= verticalScl;
     this->width *= horizontalScl;
-    this->points[Rectangle::BOTTOMRIGHT].change(this->points[Rectangle::TOPLEFT].getX() + width,
-                                                this->points[Rectangle::TOPLEFT].getY() + height);
+    this->points[this->bottomRight].change(this->points[this->topLeft].getX() + width,
+                                           this->points[this->topLeft].getY() + height);
 
     if (this->height < 0)
         this->height *= -1;
@@ -39,19 +37,19 @@ void Rectangle::scale(float verticalScl, float horizontalScl) {
         this->width *= -1;
 
 
-    if (this->points[Rectangle::BOTTOMRIGHT] <= this->points[Rectangle::TOPLEFT]) {
-        unsigned temp = Rectangle::TOPLEFT;
-        Rectangle::TOPLEFT = Rectangle::BOTTOMRIGHT;
-        Rectangle::BOTTOMRIGHT = temp;
+    if (this->points[this->bottomRight] <= this->points[this->topLeft]) {
+        unsigned temp = this->topLeft;
+        this->topLeft = this->bottomRight;
+        this->bottomRight = temp;
     }
 
-    this->changeSurroundingRectangle(this->points[Rectangle::TOPLEFT], this->points[Rectangle::BOTTOMRIGHT]);
+    this->changeSurroundingRectangle(this->points[this->topLeft], this->points[this->bottomRight]);
 }
 
 void Rectangle::saveToFormat(std::ofstream &file) const {
     file << "rect ";
-    file << this->points[Rectangle::TOPLEFT].getX() << ' ';
-    file << this->points[Rectangle::TOPLEFT].getY() << ' ';
+    file << this->points[this->topLeft].getX() << ' ';
+    file << this->points[this->topLeft].getY() << ' ';
     file << this->width << ' ';
     file << this->height << ' ';
     file << this->stroke << ' ';
@@ -60,8 +58,8 @@ void Rectangle::saveToFormat(std::ofstream &file) const {
 
 void Rectangle::saveToSvgFile(std::ofstream &file) const {
     file << "<rect ";
-    file << "x = \"" << this->points[Rectangle::TOPLEFT].getX() << "\" ";
-    file << "y = \"" << this->points[Rectangle::TOPLEFT].getY() << "\" ";
+    file << "x = \"" << this->points[this->topLeft].getX() << "\" ";
+    file << "y = \"" << this->points[this->topLeft].getY() << "\" ";
     file << "width = \"" << this->width << "\" ";
     file << "height = \"" << this->height << "\" ";
     file << "stroke = \"" << this->stroke << "\" ";

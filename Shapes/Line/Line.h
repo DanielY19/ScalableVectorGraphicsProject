@@ -20,8 +20,8 @@ public:
     ~Line() override = default;
 
 private:
-    static unsigned FIRST;
-    static unsigned SECOND;
+    unsigned first;
+    unsigned second;
 };
 
 class LineCreator : public ShapeCreator {

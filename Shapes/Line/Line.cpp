@@ -1,11 +1,9 @@
 #include "Line.h"
 #include <iostream>
 
-unsigned Line::FIRST = 0;
-unsigned Line::SECOND = 1;
 
 Line::Line(float x1, float y1, float x2, float y2, const char *stroke)
-        : Shape(stroke, stroke, Point(x1, y1), Point(x2, y2)) {
+        : Shape(stroke, stroke, Point(x1, y1), Point(x2, y2)), first(0), second(1) {
     this->points.push_back(this->getTL());
     this->points.push_back(this->getBR());
 }
@@ -17,39 +15,39 @@ void Line::print() const {
 }
 
 void Line::translate(float verticalTrl, float horizontalTrl) {
-    this->points[Line::FIRST].translate(verticalTrl, horizontalTrl);
-    this->points[Line::SECOND].translate(verticalTrl, horizontalTrl);
-    this->changeSurroundingRectangle(this->points[Line::FIRST], this->points[Line::SECOND]);
+    this->points[this->first].translate(verticalTrl, horizontalTrl);
+    this->points[this->second].translate(verticalTrl, horizontalTrl);
+    this->changeSurroundingRectangle(this->points[this->first], this->points[this->second]);
 }
 
 void Line::scale(float verticalScl, float horizontalScl) {
-    scaleForLineAndPolygon(this->points[Line::FIRST], this->points[Line::SECOND], verticalScl, horizontalScl);
+    scaleForLineAndPolygon(this->points[this->first], this->points[this->second], verticalScl, horizontalScl);
 
 
-    if (this->points[Line::SECOND] <= this->points[Line::FIRST]) {
-        unsigned temp = Line::FIRST;
-        Line::FIRST = Line::SECOND;
-        Line::SECOND = temp;
+    if (this->points[this->second] <= this->points[this->first]) {
+        unsigned temp = this->first;
+        this->first = this->second;
+        this->second = temp;
     }
 
-    this->changeSurroundingRectangle(this->points[Line::FIRST], this->points[Line::SECOND]);
+    this->changeSurroundingRectangle(this->points[this->first], this->points[this->second]);
 }
 
 void Line::saveToFormat(std::ofstream &file) const {
     file << "line ";
-    file << this->points[Line::FIRST].getX() << ' ';
-    file << this->points[Line::FIRST].getY() << ' ';
-    file << this->points[Line::SECOND].getX() << ' ';
-    file << this->points[Line::SECOND].getY() << ' ';
+    file << this->points[this->first].getX() << ' ';
+    file << this->points[this->first].getY() << ' ';
+    file << this->points[this->second].getX() << ' ';
+    file << this->points[this->second].getY() << ' ';
     file << this->stroke << '\n';
 }
 
 void Line::saveToSvgFile(std::ofstream &file) const {
     file << "<line ";
-    file << "x1 = \"" << this->points[Line::FIRST].getX() << "\" ";
-    file << "y1 = \"" << this->points[Line::FIRST].getY() << "\" ";
-    file << "x2 = \"" << this->points[Line::SECOND].getX() << "\" ";
-    file << "y2 = \"" << this->points[Line::SECOND].getY() << "\" ";
+    file << "x1 = \"" << this->points[this->first].getX() << "\" ";
+    file << "y1 = \"" << this->points[this->first].getY() << "\" ";
+    file << "x2 = \"" << this->points[this->second].getX() << "\" ";
+    file << "y2 = \"" << this->points[this->second].getY() << "\" ";
     file << "stroke = \"" << this->stroke << "\" ";
     file << "/>\n";
 }

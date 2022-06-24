@@ -15,7 +15,7 @@ public:
 
     void saveToFormat(std::ofstream &file) const override;
 
-    void saveToSvgFile(std::ofstream& file) const override;
+    void saveToSvgFile(std::ofstream &file) const override;
 
     ~Rectangle() override = default;
 
@@ -23,8 +23,8 @@ private:
     float width;
     float height;
 
-    static unsigned TOPLEFT;
-    static unsigned BOTTOMRIGHT;
+    unsigned topLeft;
+    unsigned bottomRight;
 };
 
 class RectangleCreator : public ShapeCreator {
@@ -35,7 +35,7 @@ public:
 
     Element *formatCreateShape(std::ifstream &file) const override;
 
-    Element *svgCreateShape(std::ifstream& file) const override;
+    Element *svgCreateShape(std::ifstream &file) const override;
 };
 
 
