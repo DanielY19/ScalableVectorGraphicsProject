@@ -95,6 +95,16 @@ void Polygon::scale(float verticalScl, float horizontalScl) {
     this->calculateSurroundingRectangle();
 }
 
+void Polygon::saveToFormat(std::ofstream &file) const {
+    unsigned size = this->points.size();
+
+    file << "polygon ";
+    for (unsigned i = 0; i < size; i++)
+        file << this->points[i].getX() << ' ' << this->points[i].getY() << ' ';
+    file << this->stroke << ' ';
+    file << this->fill << '\n';
+}
+
 void Polygon::saveToSvgFile(std::ofstream &file) const {
     file << "<polygon ";
     file << "points = \"";
@@ -175,6 +185,10 @@ Element *PolygonCreator::userCreateShape(std::istream &input) const {
         return nullptr;
 
     return new Polygon(points.data(), points.size(), data.c_str(), fill.c_str());
+}
+
+Element *PolygonCreator::formatCreateShape(std::ifstream &file) const {
+    return this->userCreateShape(file);
 }
 
 std::vector<Point> findPoints(std::ifstream &file, unsigned currentIndex) {

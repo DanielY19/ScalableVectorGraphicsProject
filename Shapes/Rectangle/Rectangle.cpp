@@ -48,6 +48,16 @@ void Rectangle::scale(float verticalScl, float horizontalScl) {
     this->changeSurroundingRectangle(this->points[Rectangle::TOPLEFT], this->points[Rectangle::BOTTOMRIGHT]);
 }
 
+void Rectangle::saveToFormat(std::ofstream &file) const {
+    file << "rect ";
+    file << this->points[Rectangle::TOPLEFT].getX() << ' ';
+    file << this->points[Rectangle::TOPLEFT].getY() << ' ';
+    file << this->width << ' ';
+    file << this->height << ' ';
+    file << this->stroke << ' ';
+    file << this->fill << '\n';
+}
+
 void Rectangle::saveToSvgFile(std::ofstream &file) const {
     file << "<rect ";
     file << "x = \"" << this->points[Rectangle::TOPLEFT].getX() << "\" ";
@@ -66,6 +76,10 @@ Element *RectangleCreator::userCreateShape(std::istream &input) const {
     input >> x >> y >> width >> height >> stroke >> fill;
 
     return new Rectangle(x, y, width, height, stroke.c_str(), fill.c_str());
+}
+
+Element *RectangleCreator::formatCreateShape(std::ifstream &file) const {
+    return this->userCreateShape(file);
 }
 
 Element *RectangleCreator::svgCreateShape(std::ifstream &file) const {

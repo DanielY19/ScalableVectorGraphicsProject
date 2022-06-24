@@ -12,6 +12,20 @@ void skip(std::ifstream &file) {
     while (file.get(symbol) && symbol != '>');
 }
 
+void Canvas::openFormat(const char *fileName) {
+    std::ifstream file(fileName);
+
+    if (!file.is_open()) {
+        std::cerr << "Cannot openSvg file!";
+        return;
+    }
+
+    while (file.good())
+        this->addElement(this->factory.formatCreateShape(file));
+
+    file.close();
+}
+
 void Canvas::openSvg(const char *fileName) {
     std::ifstream file(fileName);
 
@@ -205,12 +219,9 @@ void Canvas::save() {
         return;
     }
 
-    file << "<svg>\n";
-
     for (unsigned i = 0; i < this->size; i++)
-        this->elements[i]->saveToSvgFile(file);
+        this->elements[i]->saveToFormat(file);
 
-    file << "</svg>";
 
     file.close();
 }

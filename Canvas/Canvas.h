@@ -10,6 +10,8 @@ public:
 
     Canvas(const Canvas &other) = delete;
 
+    void openFormat(const char *fileName);
+
     void openSvg(const char *fileName);
 
     void print();

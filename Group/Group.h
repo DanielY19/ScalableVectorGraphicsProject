@@ -16,6 +16,8 @@ public:
 
     //void rotate(int angle) override;//for later
 
+    void saveToFormat(std::ofstream &file) const override;
+
     void saveToSvgFile(std::ofstream &file) const override;
 
     std::vector<Element *> ungroup() override;

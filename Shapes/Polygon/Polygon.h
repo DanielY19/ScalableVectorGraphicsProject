@@ -13,6 +13,8 @@ public:
 
     void scale(float verticalScl, float horizontalScl) override;
 
+    void saveToFormat(std::ofstream &file) const override;
+
     void saveToSvgFile(std::ofstream& file) const override;
 
     ~Polygon() override = default;
@@ -27,6 +29,8 @@ public:
     PolygonCreator() : ShapeCreator("polygon") {};
 
     Element *userCreateShape(std::istream &input) const override;
+
+    Element *formatCreateShape(std::ifstream &file) const override;
 
     Element *svgCreateShape(std::ifstream &file) const override;
 };

@@ -11,6 +11,8 @@ public:
 
     Element *userCreateShape(std::istream& input) const;
 
+    Element *formatCreateShape(std::ifstream &file) const;
+
     Element *svgCreateShape(std::ifstream& file) const;
 
     ShapeFactory& operator=(const ShapeFactory& other) = delete;

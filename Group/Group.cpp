@@ -38,6 +38,11 @@ void Group::scale(float verticalScl, float horizontalScl) {
         this->elements[i]->scale(verticalScl, horizontalScl);
 }
 
+void Group::saveToFormat(std::ofstream &file) const {
+    for (unsigned i = 0; i < this->size; i++)
+        this->elements[i]->saveToFormat(file);
+}
+
 void Group::saveToSvgFile(std::ofstream &file) const {
     for (unsigned i = 0; i < this->size; i++)
         this->elements[i]->saveToSvgFile(file);

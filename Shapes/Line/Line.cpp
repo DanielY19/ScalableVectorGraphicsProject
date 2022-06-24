@@ -17,8 +17,8 @@ void Line::print() const {
 }
 
 void Line::translate(float verticalTrl, float horizontalTrl) {
-    this->points[Line::FIRST].translate(verticalTrl,horizontalTrl);
-    this->points[Line::SECOND].translate(verticalTrl,horizontalTrl);
+    this->points[Line::FIRST].translate(verticalTrl, horizontalTrl);
+    this->points[Line::SECOND].translate(verticalTrl, horizontalTrl);
     this->changeSurroundingRectangle(this->points[Line::FIRST], this->points[Line::SECOND]);
 }
 
@@ -35,6 +35,14 @@ void Line::scale(float verticalScl, float horizontalScl) {
     this->changeSurroundingRectangle(this->points[Line::FIRST], this->points[Line::SECOND]);
 }
 
+void Line::saveToFormat(std::ofstream &file) const {
+    file << "line ";
+    file << this->points[Line::FIRST].getX() << ' ';
+    file << this->points[Line::FIRST].getY() << ' ';
+    file << this->points[Line::SECOND].getX() << ' ';
+    file << this->points[Line::SECOND].getY() << ' ';
+    file << this->stroke << '\n';
+}
 
 void Line::saveToSvgFile(std::ofstream &file) const {
     file << "<line ";
@@ -54,6 +62,10 @@ Element *LineCreator::userCreateShape(std::istream &input) const {
     input >> x1 >> y1 >> x2 >> y2 >> stroke;
 
     return new Line(x1, y1, x2, y2, stroke.c_str());
+}
+
+Element *LineCreator::formatCreateShape(std::ifstream &file) const {
+    return this->userCreateShape(file);
 }
 
 Element *LineCreator::svgCreateShape(std::ifstream &file) const {

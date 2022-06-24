@@ -19,6 +19,8 @@ public:
 
     //virtual void rotate(int angle) = 0;//for later
 
+     void saveToFormat(std::ofstream &file) const override = 0;
+
     void saveToSvgFile(std::ofstream &file) const override = 0;
 
     Shape &operator=(const Shape &other) = delete;
@@ -42,9 +44,11 @@ public:
 
     //additionalFunctionForTheOtherFormat();
 
-    virtual Element *svgCreateShape(std::ifstream &file) const = 0;
-
     virtual Element *userCreateShape(std::istream &input) const = 0;
+
+    virtual Element *formatCreateShape(std::ifstream &file) const = 0;
+
+    virtual Element *svgCreateShape(std::ifstream &file) const = 0;
 
     const char *getTargetedShape() const;
 

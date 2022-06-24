@@ -27,6 +27,8 @@ public:
 
     bool isContained(float tlX, float tlY, float brX, float brY) const;
 
+    virtual void saveToFormat(std::ofstream &file) const = 0;
+
     virtual void saveToSvgFile(std::ofstream &file) const = 0;
 
     unsigned getID() const;

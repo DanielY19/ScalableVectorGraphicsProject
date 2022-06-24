@@ -39,6 +39,10 @@ Element *ShapeFactory::userCreateShape(std::istream &input) const {
     return nullptr;
 }
 
+Element *ShapeFactory::formatCreateShape(std::ifstream &file) const {
+    return this->userCreateShape(file);
+}
+
 Element *ShapeFactory::svgCreateShape(std::ifstream &file) const {
     std::string shapeType;
     file >> shapeType;

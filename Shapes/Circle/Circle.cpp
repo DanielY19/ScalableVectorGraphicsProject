@@ -31,6 +31,15 @@ void Circle::scale(float verticalScl, float horizontalScl) {
     this->calculateSurroundingRectangle();
 }
 
+void Circle::saveToFormat(std::ofstream &file) const {
+    file << "circle ";
+    file << this->points[Circle::CENTER].getX() << ' ';
+    file << this->points[Circle::CENTER].getY() << ' ';
+    file << this->radius << ' ';
+    file << this->stroke << ' ';
+    file << this->fill << '\n';
+}
+
 void Circle::saveToSvgFile(std::ofstream &file) const {
     file << "<circle ";
     file << "cx = \"" << this->points[Circle::CENTER].getX() << "\" ";
@@ -56,6 +65,10 @@ Element *CircleCreator::userCreateShape(std::istream &input) const {
     input >> cx >> cy >> radius >> stroke >> fill;
 
     return new Circle(cx, cy, radius, stroke.c_str(), fill.c_str());
+}
+
+Element *CircleCreator::formatCreateShape(std::ifstream &file) const {
+    return this->userCreateShape(file);
 }
 
 Element *CircleCreator::svgCreateShape(std::ifstream &file) const {

@@ -9,8 +9,13 @@ void Interface::commandLine() {
         std::cout << '>';
         std::cin >> command;
 
+        if(strcmp(command.c_str(), "openFormat") == 0){
+            std::string file;
+            std::cin >> file;
+            this->image.openFormat(file.c_str());
+        }
 
-        if (strcmp(command.c_str(), "open") == 0) {
+        else if (strcmp(command.c_str(), "openSvg") == 0) {
             std::string file;
             std::cin >> file;
             this->image.openSvg(file.c_str());
